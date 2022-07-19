@@ -1,7 +1,5 @@
 package org.financemanager.entity;
 
-import org.financemanager.repository.CategoryRepo;
-
 import javax.persistence.*;
 
 @Entity
