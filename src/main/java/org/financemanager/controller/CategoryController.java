@@ -25,16 +25,29 @@ public class CategoryController {
         return "categories/categories";
     }
 
-    @GetMapping("/new")
-    public String newCategory(@ModelAttribute("category") Category category, Model model){
-        return "categories/new";
-    }
-
     @PostMapping
     public String createCategory(@ModelAttribute("category") Category category) {
         categoryRepo.save(category);
         return "redirect:/categories";
     }
+
+    @GetMapping("/new")
+    public String newCategory(@ModelAttribute("category") Category category, Model model){
+        return "categories/new";
+    }
+
+    @PutMapping("{id}")
+    public String updateCategory(@ModelAttribute("category") Category category, @PathVariable("id") Long id){
+        categoryRepo.save(category);
+        return "redirect:/categories";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editCategory(@PathVariable("id") Long id, Model model){
+        model.addAttribute("category", categoryRepo.getById(id));
+        return "categories/edit";
+    }
+
     @GetMapping("{id}")
     @ResponseBody
     public Optional<Category> getById(@PathVariable("id") Long id){
