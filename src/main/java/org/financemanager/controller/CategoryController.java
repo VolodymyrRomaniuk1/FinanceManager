@@ -5,10 +5,8 @@ import org.financemanager.repository.CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +25,16 @@ public class CategoryController {
         return "categories/categories";
     }
 
+    @GetMapping("/new")
+    public String newCategory(@ModelAttribute("category") Category category, Model model){
+        return "categories/new";
+    }
+
+    @PostMapping
+    public String createCategory(@ModelAttribute("category") Category category) {
+        categoryRepo.save(category);
+        return "redirect:/categories";
+    }
     @GetMapping("{id}")
     @ResponseBody
     public Optional<Category> getById(@PathVariable("id") Long id){
