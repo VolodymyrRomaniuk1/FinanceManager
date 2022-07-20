@@ -14,5 +14,9 @@
     <br>
     <input type="submit" value="Update category">
 </form>
+<br>
+<form th:method="DELETE" th:action="@{/categories/{id}(id=${category.getId()})}" th:object="${category}">
+    <input style="background-color:#E24646" type="submit" value="Delete category">
+</form>
 </body>
 </html>

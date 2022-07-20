@@ -48,6 +48,12 @@ public class CategoryController {
         return "categories/edit";
     }
 
+    @DeleteMapping("{id}")
+    public String deleteCategory(@PathVariable("id") Long id){
+        categoryRepo.deleteById(id);
+        return "redirect:/categories";
+    }
+
     @GetMapping("{id}")
     @ResponseBody
     public Optional<Category> getById(@PathVariable("id") Long id){
