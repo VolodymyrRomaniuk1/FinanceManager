@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+          crossorigin="anonymous">
+<!--    <link rel="stylesheet" href="../style/style.css">-->
+    <style>
+        html {
+            background-color: #a0a0a0;
+            height: 100%;
+        }
+        body {
+            height: 100%;
+            margin: 5px;
+        }
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            overflow: auto;
+            min-height: 100%;
+            height: 100%;
+            margin: 5px;
+        }
+        .content {
+            flex: 1 0 auto;
+            margin: 5px;
+            background-color: #d9e0f1;
+            height: 86%;
+        }
+        #navigationFromBootstrap {
+            margin: 5px;
+        }
+        .headerOneLine {
+            display: flex;
+            flex-direction: column;
+            height: 5vh;
+            margin: 5px;
+            text-align: center;
+            font-size: 3vh;
+
+        }
+        .tableWithData {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            height: 82%;
+            margin: 5px;
+            font-size: 2.2vh;
+        }
+        .footer {
+            flex: 0 0 35px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            overflow: hidden;
+            background-color: #d9e0f1;
+            margin: 5px;
+            text-align: center;
+
+        }
+        .addressAndSite {
+            text-align: left;
+            overflow: hidden;
+            height: auto;
+            width: 40%;
+            margin: 5px;
+        }
+        .linkToEmail {
+            text-align: right;
+            overflow: hidden;
+            height: auto;
+            width: 40%;
+            margin: 5px;
+        }
+        table {
+            width: 100%;
+            height: 100%;
+            background-color: #b9cbf7;
+        }
+        table, th, td {
+            border: 3px solid black;
+        }
+        td, th, tr {
+            text-align: center;
+        }
+        th {
+            height: 4%;
+        }
+
+        .fieldDate {
+            width: 5%;
+        }
+        .fieldComposition {
+            width: 10%;
+        }
+        .fieldNumber {
+            width: 6%;
+        }
+        .fieldProceedingsNumber {
+            width: 10%;
+        }
+        .fieldParties {
+            width: auto;
+        }
+        .fieldGist {
+            width: 17%;
+        }
+        .fieldBox {
+            width: 3%;
+        }
+    </style>
+    <title>Categories</title>
+</head>
+<body>
+<div class="wrapper">
+    <div class="content">
+        <div class="tableWithData">
+            <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" style="height: 100%">
+                <div class="carousel-inner" id="dataTableAndCarousel" style="height: 100%">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+        crossorigin="anonymous"></script>
+
+<!--<script src="../js/script.js"></script>-->
+<script>
+    //Get json array from server on this url
+    const requestURL = 'http://localhost:8080/categories';
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', requestURL);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState !== 4 || xhr.status !== 200) {
+            return;
+        }
+        //Set this json to constant
+        const response = xhr.responseText;
+
+        //After that parse Json and write on site in table
+        const arrObjects = JSON.parse(response)[0];
+        var lengthObjects = arrObjects.length;
+        var rowsOnPage = 40;//How many rows must to be on one pages
+        var count = 0;
+        var countPages = 0;//How many pages we will have in the end, that need for build carousel
+        do {
+            count += rowsOnPage;
+            countPages++;
+        } while (lengthObjects > count);
+        console.log("response " + response);
+        console.log("arrObjects " + arrObjects);
+        var finish = listPagesOfCarousel(arrObjects,countPages,rowsOnPage);
+        document.getElementById("dataTableAndCarousel").innerHTML = finish;
+    }
+    xhr.send();
+
+    function listPagesOfCarousel (arr, howManyCycles, rowsOnPage) {
+        var result = "";
+        var count = 0;
+        var tempVariable = "";
+        var tempHowManyCycles = howManyCycles;
+        while (tempHowManyCycles !=0) {
+
+            //Use when starting first cycle, because first carousel have different class
+            if (tempHowManyCycles == howManyCycles) {
+                //Add top carousel
+                tempVariable = headFirstPageCarouselAndTable();
+                //Add data in that carousel
+                for ( let i=count; i<count+rowsOnPage; i++) {
+                    tempVariable += rowInTable(arr,i);
+                }
+                //Add bottom carousel
+                tempVariable += futCarouselAndTable();
+                count += rowsOnPage;
+                //Add that carousel to result,
+                //that result we return on page with all carousels and data in that carousel
+                result += tempVariable;
+            }
+            //Use in another cycles without the last
+            else if (tempHowManyCycles < howManyCycles && count+rowsOnPage < arr.length) {
+                for ( let j=count; j<count+rowsOnPage; j++) {
+                    tempVariable += rowInTable(arr,j);
+                }
+                tempVariable += futCarouselAndTable();
+                count += rowsOnPage;
+                result += tempVariable;
+            }
+            //Use in last cycle
+            else {
+                tempVariable = headCarouselAndTable();
+                for ( let k=count; k<arr.length; k++) {
+                    tempVariable += rowInTable(arr,k);
+                }
+                tempVariable += futCarouselAndTable();
+                count += rowsOnPage;
+                result += tempVariable;
+            }
+            tempHowManyCycles--;
+        }
+        return result;
+    }
+    function rowInTable(arr, index) {
+        return "<tr>" +
+            "<td>" + arr[index].id + "</td>" +
+            "<td>" + arr[index].name + "</td>" +
+            "<td>" + arr[index].description + "</td>" +
+            "</tr>";
+    }
+    function headFirstPageCarouselAndTable() {
+        return "<div class=\"carousel-item active\" data-bs-interval=\"10000\" style=\"height: 100%\">\n" +
+            "                <table class=\"test\">\n" +
+            "                    <tr>\n" +
+            "                        <th class=\"fieldDate\">ID</th>\n" +
+            "                        <th class=\"fieldComposition\">Name</th>\n" +
+            "                        <th class=\"fieldNumber\">Description</th>\n" +
+            "                    </tr>";
+    }
+    function headCarouselAndTable() {
+        return "<div class=\"carousel-item\" data-bs-interval=\"10000\" style=\"height: 100%\">\n" +
+            "                <table class=\"test\">\n" +
+            "                    <tr>\n" +
+            "                        <th class=\"fieldDate\">ID</th>\n" +
+            "                        <th class=\"fieldComposition\">Name</th>\n" +
+            "                        <th class=\"fieldNumber\">Description</th>\n" +
+            "                    </tr>";
+    }
+    function futCarouselAndTable() {
+        return "</table>\n" +
+            "            </div>";
+    }
+
+    // const createClock = setInterval(f,1000)
+    // function f(){
+    //     console.log("set int");
+    // }
+
+</script>
+</html>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Categories</title>-->
+<!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">-->
+<!--    <style>-->
+<!--        table, td, th{-->
+<!--            border: 1px solid black;-->
+<!--            padding:5px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <a href="/categories/new">Create new category</a>-->
+<!--    <br><br>-->
+<!--    <table>-->
+<!--        <tr>-->
+<!--            <th>ID</th>-->
+<!--            <th>Name</th>-->
+<!--            <th>Description</th>-->
+<!--        </tr>-->
+<!--        <tr th:each="category : ${listCategories}">-->
+<!--            <td th:utext="${category.id}"></td>-->
+<!--            <td th:utext="${category.name}"></td>-->
+<!--            <td th:utext="${category.description}"></td>-->
+<!--        </tr>-->
+<!--    </table>-->
+<!--</body>-->
+<!--</html>-->
