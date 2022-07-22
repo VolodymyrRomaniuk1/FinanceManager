@@ -119,11 +119,52 @@
 <body>
 <div class="wrapper">
     <div class="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navigationFromBootstrap">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Івано-Франківський апеляційний суд</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Громадянам
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Список справ призначених до розгляду</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Пошук" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Пошук</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <div class="headerOneLine">
+            <b>Список справ призначених до розгляду</b>
+        </div>
+
+
         <div class="tableWithData">
             <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" style="height: 100%">
                 <div class="carousel-inner" id="dataTableAndCarousel" style="height: 100%">
 
                 </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="addressAndSite">
+                Адреса м.Івано-Франківськ, вул. Грюнвальдська, 11, 76018
+                <a href="https://ifa.court.gov.ua/sud4808/">ifa.court.gov.ua</a>
+            </div>
+            <div class="linkToEmail">
+                E-mail:
+                <a href="mailto:inbox@ifa.court.gov.ua">inbox@ifa.court.gov.ua</a>
             </div>
         </div>
 
@@ -143,6 +184,7 @@
     const xhr = new XMLHttpRequest();
     xhr.open('GET', requestURL);
     xhr.onreadystatechange = function() {
+        //TODO rewrite in future, when we well check status response on front end
         if (xhr.readyState !== 4 || xhr.status !== 200) {
             return;
         }
@@ -150,23 +192,52 @@
         const response = xhr.responseText;
 
         //After that parse Json and write on site in table
-        const arrObjects = JSON.parse(response)[0];
-        var lengthObjects = arrObjects.length;
-        var rowsOnPage = 40;//How many rows must to be on one pages
+        const arrObjects = JSON.parse(response);
+        var lengthObjects = Object.keys(arrObjects).length;
+
+        var rowsOnPage = 4;//How many rows must be on one pages
         var count = 0;
         var countPages = 0;//How many pages we will have in the end, that need for build carousel
         do {
             count += rowsOnPage;
             countPages++;
         } while (lengthObjects > count);
-        console.log("response " + response);
-        console.log("arrObjects " + arrObjects);
-        var finish = listPagesOfCarousel(arrObjects,countPages,rowsOnPage);
+
+        var finish = headFirstPageCarouselAndTable();
+        for(let i = 0; i < arrObjects.length; i++) {
+            let obj = arrObjects[i];
+            finish += oneObjectInTable(obj);
+        }
+        finish += futCarouselAndTable();
         document.getElementById("dataTableAndCarousel").innerHTML = finish;
     }
     xhr.send();
 
-    function listPagesOfCarousel (arr, howManyCycles, rowsOnPage) {
+    function oneObjectInTable(obj) {
+        return "<tr>" +
+            "<td>" + obj.id + "</td>" +
+            "<td>" + obj.name + "</td>" +
+            "<td>" + obj.description + "</td>" +
+            "</tr>";
+    }
+    function headFirstPageCarouselAndTable() {
+        return "<div class=\"carousel-item active\" data-bs-interval=\"10000\" style=\"height: 100%\">\n" +
+            "                <table class=\"test\">\n" +
+            "                    <tr>\n" +
+            "                        <th class=\"fieldDate\">ID</th>\n" +
+            "                        <th class=\"fieldComposition\">Name</th>\n" +
+            "                        <th class=\"fieldNumber\">Description</th>\n" +
+            "                    </tr>";
+    }
+    function futCarouselAndTable() {
+        return "</table>\n" +
+            "            </div>";
+    }
+
+
+    // This is old
+    //var finish = listPagesOfCarousel(arrObjects,countPages,rowsOnPage);
+    /*function listPagesOfCarousel (arr, howManyCycles, rowsOnPage) {
         var result = "";
         var count = 0;
         var tempVariable = "";
@@ -210,24 +281,16 @@
             tempHowManyCycles--;
         }
         return result;
-    }
-    function rowInTable(arr, index) {
+    }*/
+    /*function rowInTable(arr, index) {
         return "<tr>" +
             "<td>" + arr[index].id + "</td>" +
             "<td>" + arr[index].name + "</td>" +
             "<td>" + arr[index].description + "</td>" +
             "</tr>";
-    }
-    function headFirstPageCarouselAndTable() {
-        return "<div class=\"carousel-item active\" data-bs-interval=\"10000\" style=\"height: 100%\">\n" +
-            "                <table class=\"test\">\n" +
-            "                    <tr>\n" +
-            "                        <th class=\"fieldDate\">ID</th>\n" +
-            "                        <th class=\"fieldComposition\">Name</th>\n" +
-            "                        <th class=\"fieldNumber\">Description</th>\n" +
-            "                    </tr>";
-    }
-    function headCarouselAndTable() {
+    }*/
+
+    /*function headCarouselAndTable() {
         return "<div class=\"carousel-item\" data-bs-interval=\"10000\" style=\"height: 100%\">\n" +
             "                <table class=\"test\">\n" +
             "                    <tr>\n" +
@@ -235,46 +298,7 @@
             "                        <th class=\"fieldComposition\">Name</th>\n" +
             "                        <th class=\"fieldNumber\">Description</th>\n" +
             "                    </tr>";
-    }
-    function futCarouselAndTable() {
-        return "</table>\n" +
-            "            </div>";
-    }
-
-    // const createClock = setInterval(f,1000)
-    // function f(){
-    //     console.log("set int");
-    // }
+    }*/
 
 </script>
 </html>
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Categories</title>-->
-<!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">-->
-<!--    <style>-->
-<!--        table, td, th{-->
-<!--            border: 1px solid black;-->
-<!--            padding:5px;-->
-<!--        }-->
-<!--    </style>-->
-<!--</head>-->
-<!--<body>-->
-<!--    <a href="/categories/new">Create new category</a>-->
-<!--    <br><br>-->
-<!--    <table>-->
-<!--        <tr>-->
-<!--            <th>ID</th>-->
-<!--            <th>Name</th>-->
-<!--            <th>Description</th>-->
-<!--        </tr>-->
-<!--        <tr th:each="category : ${listCategories}">-->
-<!--            <td th:utext="${category.id}"></td>-->
-<!--            <td th:utext="${category.name}"></td>-->
-<!--            <td th:utext="${category.description}"></td>-->
-<!--        </tr>-->
-<!--    </table>-->
-<!--</body>-->
-<!--</html>-->
