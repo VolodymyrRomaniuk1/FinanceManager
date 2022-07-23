@@ -1,4 +1,49 @@
 create table if not exists categories
-
     and after that something like
-    insert into categories (name,description) values ('categoryName1','Description1')
+    insert into
+    categories
+(
+    name,
+    description
+)
+    values
+(
+    'categoryName1',
+    'Description1'
+),
+(
+    'categoryName2',
+    'Description2'
+),
+(
+    'categoryName3',
+    'Description3'
+),
+(
+    'categoryName4',
+    'Description4'
+),
+(
+    'categoryName5',
+    'Description5'
+),
+(
+    'categoryName6',
+    'Description6'
+),
+(
+    'categoryName7',
+    'Description7'
+),
+(
+    'categoryName8',
+    'Description8'
+),
+(
+    'categoryName9',
+    'Description9'
+),
+(
+    'categoryName10',
+    'Description10'
+),
