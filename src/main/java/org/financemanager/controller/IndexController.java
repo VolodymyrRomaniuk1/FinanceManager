@@ -20,19 +20,12 @@ public class IndexController {
         model.addAttribute("name", name);
         return "index";
     }
-    @GetMapping("/categories")
-    @ResponseBody
-    public List<Category> getCategoriesList(Model model){
-        List<Category> categories = categoryRepo.findAll();
-        model.addAttribute("listCategories", categories);
-        return categories;
-    }
 
     @GetMapping("/categoriesList")
     public String getCategories(Model model){
         List<Category> categories = categoryRepo.findAll();
         model.addAttribute("listCategories", categories);
-        return "categories/categoriesList";
+        return "categories/categories";
     }
 
     @GetMapping("categories/{id}/edit")
