@@ -81,16 +81,16 @@ th {
     height: 4%;
 }
 
-.fieldDate {
+.fieldID {
     width: 5%;
 }
-.fieldComposition {
+.fieldName {
     width: 10%;
 }
-.fieldNumber {
+.fieldDescription {
     width: 6%;
 }
-.fieldProceedingsNumber {
+.fieldManage {
     width: 10%;
 }
 .fieldParties {
