@@ -1,5 +1,4 @@
 create table if not exists categories
-    and after that something like
     insert into
     categories
 (
@@ -46,4 +45,4 @@ create table if not exists categories
 (
     'categoryName10',
     'Description10'
-),
+);
