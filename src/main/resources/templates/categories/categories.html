@@ -44,11 +44,46 @@
             <b>Категорії витрат</b>
         </div>
 
+        <div id="statusMessage" th:if=""></div>
 
         <div class="tableWithData">
             <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" style="height: 100%">
                 <div class="carousel-inner" id="dataTableAndCarousel" style="height: 100%">
 
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">New message</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <label for="categoryName">Name</label>
+                            <input type="text" id="categoryName">
+                            <br>
+                            <label for="categoryDescription">Description</label>
+                            <textarea id="categoryDescription"></textarea>
+                        </form>
+<!--                        <form>-->
+<!--                            <div class="mb-3">-->
+<!--                                <label for="recipient-name" class="col-form-label">Recipient:</label>-->
+<!--                                <input type="text" class="form-control" id="recipient-name">-->
+<!--                            </div>-->
+<!--                            <div class="mb-3">-->
+<!--                                <label for="message-text" class="col-form-label">Message:</label>-->
+<!--                                <textarea class="form-control" id="message-text"></textarea>-->
+<!--                            </div>-->
+<!--                        </form>-->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="updateCategory">Update Category</button>
+                    </div>
                 </div>
             </div>
         </div>
