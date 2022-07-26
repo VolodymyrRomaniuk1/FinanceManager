@@ -1,5 +1,6 @@
 //Get json array from server on this url
-const requestURL = 'http://localhost:8080/categories';
+const baseURL = 'http://localhost:8080/';
+const requestURL = baseURL + 'categories';
 const xhr = new XMLHttpRequest();
 xhr.open('GET', requestURL);
 xhr.onreadystatechange = function() {
@@ -37,22 +38,29 @@ function oneObjectInTable(obj) {
         "<td>" + obj.id + "</td>" +
         "<td>" + obj.name + "</td>" +
         "<td>" + obj.description + "</td>" +
+        "<td>" +
+        // "<button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\" data-bs-category-info='" +
+        // JSON.stringify(obj) +
+        // "'" +
+        // ">Open modal</button>" +
+        "<a href='categories/" + obj.id + "/edit'><button type='submit' class='btn btn-primary'>Edit</button></a>" + "</td>" +
         "</tr>";
 }
+
 function headFirstPageCarouselAndTable() {
     return "<div class=\"carousel-item active\" data-bs-interval=\"10000\" style=\"height: 100%\">\n" +
         "                <table class=\"test\">\n" +
         "                    <tr>\n" +
-        "                        <th class=\"fieldDate\">ID</th>\n" +
-        "                        <th class=\"fieldComposition\">Name</th>\n" +
-        "                        <th class=\"fieldNumber\">Description</th>\n" +
+        "                        <th class=\"fieldID\">ID</th>\n" +
+        "                        <th class=\"fieldName\">Name</th>\n" +
+        "                        <th class=\"fieldDescription\">Description</th>\n" +
+        "                        <th class=\"fieldManage\">Manage</th>\n" +
         "                    </tr>";
 }
 function futCarouselAndTable() {
     return "</table>\n" +
         "            </div>";
 }
-
 
 // This is old
 //var finish = listPagesOfCarousel(arrObjects,countPages,rowsOnPage);
