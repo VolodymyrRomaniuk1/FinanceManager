@@ -5,7 +5,6 @@ import org.financemanager.repository.CategoryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,7 @@ public class CategoryController {
     public ResponseEntity<List<Category>> getCategoriesList(Model model){
         List<Category> categories = categoryRepo.findAll();
         if(categories.isEmpty()){
-            return new ResponseEntity<>(categories, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         model.addAttribute("listCategories", categories);
         return new ResponseEntity<>(categories, HttpStatus.OK);
@@ -34,7 +33,7 @@ public class CategoryController {
         Optional<Category> category;
         category = categoryRepo.findById(id);
         if(category.isEmpty()){
-            return new ResponseEntity<>(category, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
@@ -42,24 +41,24 @@ public class CategoryController {
     @PostMapping
     public ResponseEntity<Category> createCategory(@ModelAttribute("category") Category category) {
         if(category == null){
-            return new ResponseEntity<>(category, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         categoryRepo.save(category);
         return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Category> updateCategory(@ModelAttribute("category") Category category){
+    public ResponseEntity<String> updateCategory(@ModelAttribute("category") Category category){
         if(category == null){
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Error: Category not found", HttpStatus.NOT_FOUND);
         }
         categoryRepo.save(category);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>("Category successfully updated.", HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity deleteCategory(@PathVariable("id") Long id){
+    public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id){
         categoryRepo.deleteById(id);
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>("Category deleted.", HttpStatus.OK);
     }
 }
