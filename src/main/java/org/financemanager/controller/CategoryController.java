@@ -48,11 +48,10 @@ public class CategoryController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<String> updateCategory(@ModelAttribute("category") Category category){
+    public ResponseEntity<String> updateCategory(@PathVariable int id, @RequestBody Category category){
         if(category == null){
             return new ResponseEntity<>("Error: Category not found", HttpStatus.NOT_FOUND);
         }
-        System.out.println(category);
         categoryRepo.save(category);
         return new ResponseEntity<>("Category successfully updated.", HttpStatus.OK);
     }
