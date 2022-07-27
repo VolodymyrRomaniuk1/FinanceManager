@@ -34,5 +34,6 @@ function updateCategory() {
     const requestURL = baseURL + 'categories/' + categoryId;
     const xhr = new XMLHttpRequest();
     xhr.open('PUT', requestURL);
+    xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(categoryJSON);
 }
