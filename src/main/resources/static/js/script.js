@@ -39,11 +39,11 @@ function oneObjectInTable(obj) {
         "<td>" + obj.name + "</td>" +
         "<td>" + obj.description + "</td>" +
         "<td>" +
-        // "<button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#exampleModal\" data-bs-category-info='" +
-        // JSON.stringify(obj) +
-        // "'" +
-        // ">Open modal</button>" +
-        "<a href='categories/" + obj.id + "/edit'><button type='submit' class='btn btn-primary'>Edit</button></a>" + "</td>" +
+        "<button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#editModal\" data-bs-category-info='" +
+        JSON.stringify(obj) +
+        "'" +
+        ">Open modal</button>" +
+        //"<a href='categories/" + obj.id + "/edit'><button type='submit' class='btn btn-primary'>Edit</button></a>" + "</td>" +
         "</tr>";
 }
 

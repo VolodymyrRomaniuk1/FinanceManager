@@ -52,6 +52,7 @@ public class CategoryController {
         if(category == null){
             return new ResponseEntity<>("Error: Category not found", HttpStatus.NOT_FOUND);
         }
+        System.out.println(category);
         categoryRepo.save(category);
         return new ResponseEntity<>("Category successfully updated.", HttpStatus.OK);
     }
