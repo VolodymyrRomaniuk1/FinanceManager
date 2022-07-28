@@ -37,3 +37,12 @@ function updateCategory() {
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(categoryJSON);
 }
+
+function deleteCategory(){
+    var categoryId = Number(document.getElementById('categoryId').value);
+    const baseURL = 'http://localhost:8080/';
+    const requestURL = baseURL + 'categories/' + categoryId;
+    const xhr = new XMLHttpRequest();
+    xhr.open('DELETE', requestURL);
+    xhr.send();
+}
