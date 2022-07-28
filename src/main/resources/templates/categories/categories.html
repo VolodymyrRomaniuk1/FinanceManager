@@ -18,18 +18,20 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navigationFromBootstrap">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Персональний фінансовий менеджер</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
-<!--                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
-<!--                                Громадянам-->
-<!--                            </a>-->
-<!--                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
-<!--                                <li><a class="dropdown-item" href="#">Список справ призначених до розгляду</a></li>-->
-<!--                            </ul>-->
+                            <!--                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+                            <!--                                Громадянам-->
+                            <!--                            </a>-->
+                            <!--                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+                            <!--                                <li><a class="dropdown-item" href="#">Список справ призначених до розгляду</a></li>-->
+                            <!--                            </ul>-->
                         </li>
                     </ul>
                     <form class="d-flex">
@@ -44,7 +46,7 @@
             <b>Категорії витрат</b>
         </div>
 
-<!--        <div id="statusMessage" th:if=""></div>-->
+        <!--        <div id="statusMessage" th:if=""></div>-->
 
         <div class="tableWithData">
             <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" style="height: 100%">
@@ -64,26 +66,20 @@
                     <div class="modal-body">
                         <form>
                             <input type="hidden" id="categoryId">
-                            <label for="categoryName">Name</label>
-                            <input type="text" id="categoryName">
+                            <label for="categoryName">Name:</label>
                             <br>
-                            <label for="categoryDescription">Description</label>
+                            <input type="text" id="categoryName">
+                            <br><br>
+                            <label for="categoryDescription">Description:</label>
+                            <br>
                             <textarea id="categoryDescription"></textarea>
                         </form>
-<!--                        <form>-->
-<!--                            <div class="mb-3">-->
-<!--                                <label for="recipient-name" class="col-form-label">Recipient:</label>-->
-<!--                                <input type="text" class="form-control" id="recipient-name">-->
-<!--                            </div>-->
-<!--                            <div class="mb-3">-->
-<!--                                <label for="message-text" class="col-form-label">Message:</label>-->
-<!--                                <textarea class="form-control" id="message-text"></textarea>-->
-<!--                            </div>-->
-<!--                        </form>-->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" style="background-color:#E24646;" onclick=deleteCategory()>Delete Category</button>
                         <button type="button" class="btn btn-primary" onclick=updateCategory()>Update Category</button>
+
                     </div>
                 </div>
             </div>
