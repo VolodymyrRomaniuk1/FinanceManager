@@ -67,7 +67,7 @@ body {
     margin: 5px;
 }
 table {
-    width: 100%;
+    width: 80%;
     height: 100%;
     background-color: #b9cbf7;
 }
@@ -82,13 +82,13 @@ th {
 }
 
 .fieldID {
-    width: 5%;
+    width: 3%;
 }
 .fieldName {
     width: 10%;
 }
 .fieldDescription {
-    width: 6%;
+    width: 10%;
 }
 .fieldManage {
     width: 10%;
