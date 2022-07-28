@@ -42,7 +42,7 @@ function oneObjectInTable(obj) {
         "<button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#editModal\" data-bs-category-info='" +
         JSON.stringify(obj) +
         "'" +
-        ">Open modal</button>" +
+        ">Manage</button>" +
         //"<a href='categories/" + obj.id + "/edit'><button type='submit' class='btn btn-primary'>Edit</button></a>" + "</td>" +
         "</tr>";
 }
