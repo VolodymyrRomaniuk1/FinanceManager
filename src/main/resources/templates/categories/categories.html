@@ -3,11 +3,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
-          crossorigin="anonymous">
-    <link rel="stylesheet" th:href="@{style/style.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{style/categories.css}">
     <style>
     </style>
     <title>Categories</title>
@@ -17,7 +15,7 @@
     <div class="content">
         <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navigationFromBootstrap">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Персональний фінансовий менеджер</a>
+                <a class="navbar-brand" href="/">Personal finance manager</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -35,20 +33,20 @@
                         </li>
                     </ul>
                     <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Пошук" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Пошук</button>
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>
             </div>
         </nav>
 
         <div class="headerOneLine">
-            <b>Категорії витрат</b>
+            <b>Spending categories</b>
         </div>
 
-        <!--        <div id="statusMessage" th:if=""></div>-->
-
         <div class="tableWithData">
+            <button type="button" class="btn btn-success newCategoryButton" onclick="window.location.href='/categories/new';">New Category</button>
+            <div id="statusMessage" class="statusMessageField"></div>
             <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" style="height: 100%">
                 <div class="carousel-inner" id="dataTableAndCarousel" style="height: 100%">
 
@@ -77,7 +75,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" style="background-color:#E24646;" onclick=deleteCategory()>Delete Category</button>
+                        <button type="button" class="btn btn-danger"
+                                onclick=deleteCategory()>Delete Category
+                        </button>
                         <button type="button" class="btn btn-primary" onclick=updateCategory()>Update Category</button>
 
                     </div>
@@ -87,7 +87,7 @@
 
         <div class="footer">
             <div class="addressAndSite">
-
+                <p>Volodymyr Romaniuk &copy; 2022</p>
             </div>
             <div class="linkToEmail">
                 E-mail:
@@ -100,8 +100,8 @@
 
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
 
 <script th:src="@{js/script.js}"></script>

@@ -1,3 +1,5 @@
+
+
 const exampleModal = document.getElementById('editModal')
 exampleModal.addEventListener('show.bs.modal', event => {
     // Button that triggered the modal
@@ -36,6 +38,13 @@ function updateCategory() {
     xhr.open('PUT', requestURL);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.send(categoryJSON);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState !== 4) {
+            return;
+        }
+        localStorage.setItem("statusMessage", xhr.responseText)
+        window.location.reload();
+    }
 }
 
 function deleteCategory(){
@@ -45,4 +54,11 @@ function deleteCategory(){
     const xhr = new XMLHttpRequest();
     xhr.open('DELETE', requestURL);
     xhr.send();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState !== 4 ) {
+            return;
+        }
+        localStorage.setItem("statusMessage", xhr.responseText)
+        window.location.reload();
+    }
 }

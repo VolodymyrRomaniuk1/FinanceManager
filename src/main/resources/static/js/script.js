@@ -39,11 +39,10 @@ function oneObjectInTable(obj) {
         "<td>" + obj.name + "</td>" +
         "<td>" + obj.description + "</td>" +
         "<td>" +
-        "<button type=\"button\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#editModal\" data-bs-category-info='" +
+        "<button type=\"button\" class=\"btn btn-info editButton\" data-bs-toggle=\"modal\" data-bs-target=\"#editModal\" data-bs-category-info='" +
         JSON.stringify(obj) +
         "'" +
-        ">Manage</button>" +
-        //"<a href='categories/" + obj.id + "/edit'><button type='submit' class='btn btn-primary'>Edit</button></a>" + "</td>" +
+        ">Manage</button>" + "</td>" +
         "</tr>";
 }
 
@@ -61,6 +60,15 @@ function futCarouselAndTable() {
     return "</table>\n" +
         "            </div>";
 }
+
+$(document).ready(function(){
+    //get it if Status key found
+    if(localStorage.getItem("statusMessage"))
+    {
+        document.getElementById("statusMessage").innerHTML = localStorage.getItem("statusMessage");
+        localStorage.clear();
+    }
+});
 
 // This is old
 //var finish = listPagesOfCarousel(arrObjects,countPages,rowsOnPage);
