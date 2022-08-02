@@ -1,6 +1,7 @@
 package org.financemanager.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 @Entity
@@ -9,6 +10,7 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotEmpty(message = "Name must not be empty")
     private String name;
     private String description;
 
