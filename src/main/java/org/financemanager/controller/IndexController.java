@@ -25,17 +25,17 @@ public class IndexController {
     public String getCategories(Model model){
         List<Category> categories = categoryRepo.findAll();
         model.addAttribute("listCategories", categories);
-        return "categories/categories";
+        return "categories";
     }
 
     @GetMapping("categories/{id}/edit")
     public String editCategory(@PathVariable("id") Long id, Model model){
         model.addAttribute("category", categoryRepo.getById(id));
-        return "categories/edit";
+        return "edit";
     }
 
     @GetMapping("categories/new")
     public String newCategory(@ModelAttribute("category") Category category, Model model){
-        return "categories/new";
+        return "newCategory";
     }
 }
