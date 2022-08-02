@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +41,8 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@ModelAttribute("category") Category category) {
-        if(category == null){
+    public ResponseEntity<Category> createCategory(@ModelAttribute("category") @Valid Category category, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         categoryRepo.save(category);
@@ -48,8 +50,8 @@ public class CategoryController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<String> updateCategory(@PathVariable int id, @RequestBody Category category){
-        if(category == null){
+    public ResponseEntity<String> updateCategory(@PathVariable int id, @RequestBody @Valid Category category, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
             return new ResponseEntity<>("Error: Category not found", HttpStatus.NOT_FOUND);
         }
         categoryRepo.save(category);
