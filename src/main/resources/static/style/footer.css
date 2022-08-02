@@ -1,0 +1,25 @@
+.footer {
+    flex: 0 0 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    overflow: hidden;
+    background-color: #d9e0f1;
+    margin:5px;
+    text-align: center;
+
+}
+.addressAndSite {
+    text-align: left;
+    overflow: hidden;
+    height: auto;
+    width: 40%;
+    margin: 5px;
+}
+.linkToEmail {
+    text-align: right;
+    overflow: hidden;
+    height: auto;
+    width: 40%;
+    margin: 5px;
+}
