@@ -1,6 +1,7 @@
 package org.financemanager.controller;
 
 import org.financemanager.entity.Category;
+import org.financemanager.entity.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,5 +38,10 @@ public class IndexController {
     @GetMapping("categories/new")
     public String newCategory(@ModelAttribute("category") Category category, Model model){
         return "newCategory";
+    }
+
+    @GetMapping("transactions/new")
+    public String newCategory(@ModelAttribute("transaction") Transaction transaction, Model model){
+        return "newTransaction";
     }
 }
