@@ -1,8 +1,7 @@
 package org.financemanager.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -18,7 +17,7 @@ public class Transaction {
     @Column(name = "operation_type")
     @Pattern(regexp = "Spending|Gain")
     private String operationType;      // allowed: "Spending" OR "Gain"
-    @NotEmpty(message = "Sum must not be empty")
+    @Positive(message = "Sum must be positive")
     private double sum;
     @NotEmpty(message = "Date must not be empty")
     private Date date;
