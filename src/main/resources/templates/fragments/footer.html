@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
-    <title>Footer</title>
+<div th:fragment="footer" xmlns:th="http://www.thymeleaf.org">
     <link rel="stylesheet" th:href="@{style/footer.css}">
-</head>
-<body>
-<footer th:fragment="footer" class="footer">
-    <div class="addressAndSite">
-        <p>Volodymyr Romaniuk &copy; 2022</p>
-    </div>
-    <div class="linkToEmail">
-        E-mail:
-        <a href="#">volodyaromanyuk@gmail.com</a>
-    </div>
-</footer>
-</body>
-</html>
+    <footer class="footer">
+        <div class="addressAndSite">
+            <p>Volodymyr Romaniuk &copy; 2022</p>
+        </div>
+        <div class="linkToEmail">
+            E-mail:
+            <a href="#">volodyaromanyuk@gmail.com</a>
+        </div>
+    </footer>
+</div>
