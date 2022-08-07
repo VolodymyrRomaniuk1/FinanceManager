@@ -19,7 +19,7 @@ public class TransactionController {
     private TransactionRepo  transactionRepo;
 
     @GetMapping
-    public ResponseEntity<List<Transaction>> getCategoriesList(Model model){
+    public ResponseEntity<List<Transaction>> getTransactionsList(Model model){
         List<Transaction> transactions = transactionRepo.findAll();
         if(transactions.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -39,7 +39,7 @@ public class TransactionController {
     }
 
     @PostMapping
-    public ResponseEntity<Transaction> createCategory(@ModelAttribute("transaction") Transaction transaction) {
+    public ResponseEntity<Transaction> createTransaction(@ModelAttribute("transaction") Transaction transaction) {
         if(transaction == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -48,7 +48,7 @@ public class TransactionController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<String> updateCategory(@PathVariable int id, @RequestBody Transaction transaction){
+    public ResponseEntity<String> updateTransaction(@PathVariable int id, @RequestBody Transaction transaction){
         if(transaction == null){
             return new ResponseEntity<>("Error: Transaction not found", HttpStatus.NOT_FOUND);
         }
@@ -57,7 +57,7 @@ public class TransactionController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id){
+    public ResponseEntity<String> deleteTransaction(@PathVariable("id") Long id){
         transactionRepo.deleteById(id);
         return new ResponseEntity<>("Category deleted.", HttpStatus.OK);
     }
