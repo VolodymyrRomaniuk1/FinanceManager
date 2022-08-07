@@ -2,6 +2,7 @@ package org.financemanager.controller;
 
 import org.financemanager.entity.Category;
 import org.financemanager.entity.Transaction;
+import org.financemanager.repository.TransactionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,8 @@ public class IndexController {
 
     @Autowired
     CategoryRepo categoryRepo;
+    @Autowired
+    TransactionRepo transactionRepo;
 
     @GetMapping("/")
     public String index (@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model){
@@ -43,5 +46,12 @@ public class IndexController {
     @GetMapping("transactions/new")
     public String newCategory(@ModelAttribute("transaction") Transaction transaction, Model model){
         return "newTransaction";
+    }
+
+    @GetMapping("/transactionsList")
+    public String getTransactions(Model model){
+        List<Transaction> transactions = transactionRepo.findAll();
+        model.addAttribute("listTransactions", transactions);
+        return "transactions";
     }
 }
