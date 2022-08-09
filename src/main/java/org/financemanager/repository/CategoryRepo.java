@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CategoryRepo extends JpaRepository<Category, Long> {
-    Optional<Category> findByName(String name);
     List<Category> findAll();
+    //Optional<Category> findById(Long id);
+    @Override
+    <S extends Category> S saveAndFlush(S s);
 }
