@@ -14,11 +14,7 @@
         <form th:method="POST" th:action="@{/transactions}" th:object="${transaction}">
             <label for="category">Category</label>
             <br>
-            <select id="category" th:field="*{category}">
-<!--                <option value="" selected disabled>Choose</option>-->
-                <option value="1">category1</option>
-                <option value="2">category2</option>
-            </select>
+            <select id="category" th:field="*{category}"></select>
             <br>
             <label for="operationType">Operation Type</label>
             <br>
@@ -47,4 +43,5 @@
     </div>
 </div>
 </body>
+<script th:src="@{../js/newTransaction.js}"></script>
 </html>
