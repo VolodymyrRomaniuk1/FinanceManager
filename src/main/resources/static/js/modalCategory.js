@@ -1,5 +1,3 @@
-
-
 const exampleModal = document.getElementById('editModal')
 exampleModal.addEventListener('show.bs.modal', event => {
     // Button that triggered the modal
@@ -24,12 +22,10 @@ exampleModal.addEventListener('show.bs.modal', event => {
 
 function updateCategory() {
     var categoryId = Number(document.getElementById('categoryId').value);
-    var categoryName = document.getElementById('categoryName').value;
-    var categoryDescription = document.getElementById('categoryDescription').value;
     var category = {};
     category.id = categoryId;
-    category.name = categoryName;
-    category.description = categoryDescription;
+    category.name = document.getElementById('categoryName').value;
+    category.description = document.getElementById('categoryDescription').value;
     var categoryJSON = JSON.stringify(category);
     console.log(categoryJSON);
     const baseURL = 'http://localhost:8080/';
