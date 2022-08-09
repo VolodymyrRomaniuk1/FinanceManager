@@ -30,27 +30,40 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel">New message</h5>
+                        <h5 class="modal-title" id="editModalLabel">Editing</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form>
-                            <input type="hidden" id="categoryId">
-                            <label for="categoryName">Name:</label>
+                            <input type="hidden" id="transactionId">
+                            <label for="transactionCategory">Category:</label>
                             <br>
-                            <input type="text" id="categoryName">
+                            <select id="transactionCategory"></select>
                             <br><br>
-                            <label for="categoryDescription">Description:</label>
+                            <label for="transactionOperationType">Operation Type</label>
                             <br>
-                            <textarea id="categoryDescription"></textarea>
+                            <select id="transactionOperationType">
+                                <option value="Spending">Spending</option>
+                                <option value="Gain">Gain</option>
+                            </select>
+                            <br><br>
+                            <label for="transactionSum">Sum</label>
+                            <br>
+                            <input type="number" id="transactionSum">
+                            <br><br>
+                            <label for="transactionDate">Date</label>
+                            <br>
+                            <input type="date" id="transactionDate">
+                            <br><br>
+                            <label for="transactionDescription">Description:</label>
+                            <br>
+                            <textarea id="transactionDescription"></textarea>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger"
-                                onclick=deleteCategory()>Delete Category
-                        </button>
-                        <button type="button" class="btn btn-primary" onclick=updateCategory()>Update Category</button>
+                        <button type="button" class="btn btn-danger" onclick=deleteTransaction()>Delete Category</button>
+                        <button type="button" class="btn btn-primary" onclick=updateTransaction()>Update Category</button>
 
                     </div>
                 </div>
