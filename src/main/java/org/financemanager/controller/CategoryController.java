@@ -1,7 +1,7 @@
 package org.financemanager.controller;
 
 import org.financemanager.entity.Category;
-import org.financemanager.repository.CategoryRepo;
+import org.financemanager.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,49 +18,34 @@ import java.util.Optional;
 public class CategoryController {
 
     @Autowired
-    CategoryRepo categoryRepo;
+    CategoryService categoryService;
 
     @GetMapping
     public ResponseEntity<List<Category>> getCategoriesList(Model model){
-        List<Category> categories = categoryRepo.findAll();
-        if(categories.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        List<Category> categories = categoryService.findAll();
         model.addAttribute("listCategories", categories);
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<Optional<Category>> getById(@PathVariable("id") Long id){
-        Optional<Category> category;
-        category = categoryRepo.findById(id);
-        if(category.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(category, HttpStatus.OK);
+        return new ResponseEntity<>(categoryService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@ModelAttribute("category") @Valid Category category, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        categoryRepo.save(category);
-        return new ResponseEntity<>(category, HttpStatus.CREATED);
+    public ResponseEntity<Category> createCategory(@ModelAttribute("category") @Valid Category category) {
+        return new ResponseEntity<>(categoryService.save(category), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<String> updateCategory(@PathVariable int id, @RequestBody @Valid Category category, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            return new ResponseEntity<>("Error: Category not found", HttpStatus.NOT_FOUND);
-        }
-        categoryRepo.save(category);
+    public ResponseEntity<String> updateCategory(@PathVariable Long id, @RequestBody @Valid Category category){
+        categoryService.update(id, category);
         return new ResponseEntity<>("Category successfully updated.", HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id){
-        categoryRepo.deleteById(id);
+        categoryService.delete(id);
         return new ResponseEntity<>("Category deleted.", HttpStatus.OK);
     }
 }
