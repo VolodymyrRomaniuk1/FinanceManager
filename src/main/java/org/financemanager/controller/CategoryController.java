@@ -17,8 +17,12 @@ import java.util.Optional;
 @RequestMapping("/categories")
 public class CategoryController {
 
+    private CategoryService categoryService;
+
     @Autowired
-    CategoryService categoryService;
+    public CategoryController(CategoryService categoryService){
+        this.categoryService = categoryService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Category>> getCategoriesList(Model model){
@@ -27,23 +31,29 @@ public class CategoryController {
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{id:[\\d]+}")
     public ResponseEntity<Optional<Category>> getById(@PathVariable("id") Long id){
         return new ResponseEntity<>(categoryService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@ModelAttribute("category") @Valid Category category) {
+    public ResponseEntity<Category> createCategory(@ModelAttribute("category") @Valid Category category, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(categoryService.save(category), HttpStatus.CREATED);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<String> updateCategory(@PathVariable Long id, @RequestBody @Valid Category category){
+    @PutMapping("{id:[\\d]+}")
+    public ResponseEntity<String> updateCategory(@PathVariable Long id, @RequestBody @Valid Category category, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         categoryService.update(id, category);
         return new ResponseEntity<>("Category successfully updated.", HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{id:[\\d]+}")
     public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id){
         categoryService.delete(id);
         return new ResponseEntity<>("Category deleted.", HttpStatus.OK);
