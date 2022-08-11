@@ -2,8 +2,10 @@ package org.financemanager.service.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.financemanager.Exception.NoSuchCategoryException;
+import org.financemanager.exception.CategoryAlreadyExistsException;
+import org.financemanager.exception.NoSuchCategoryException;
 import org.financemanager.entity.Category;
+import org.financemanager.exception.NoSuchTransactionExeption;
 import org.financemanager.repository.CategoryRepo;
 import org.financemanager.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,14 @@ import java.util.Optional;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    public static final Logger log = LogManager.getLogger();
+
+
+    private CategoryRepo categoryRepo;
 
     @Autowired
-    private CategoryRepo categoryRepo;
+    public CategoryServiceImpl(CategoryRepo categoryRepo) {
+        this.categoryRepo = categoryRepo;
+    }
 
     @Override
     public List<Category> findAll() {
@@ -28,6 +34,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Optional<Category> findById(Long id) {
         try {
+            if(categoryRepo.findById(id).isEmpty()){
+                throw new NoSuchTransactionExeption();
+            }
             return categoryRepo.findById(id);
         } catch (NoSuchCategoryException e) {
             throw new NoSuchCategoryException();
@@ -38,8 +47,8 @@ public class CategoryServiceImpl implements CategoryService {
     public Category save(Category category) {
         try {
             return categoryRepo.saveAndFlush(category);
-        }catch (NoSuchCategoryException e){
-            throw new NoSuchCategoryException();
+        }catch (CategoryAlreadyExistsException e){
+            throw new CategoryAlreadyExistsException();
         }
     }
 

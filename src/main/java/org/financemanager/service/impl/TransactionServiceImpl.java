@@ -1,22 +1,25 @@
 package org.financemanager.service.impl;
 
-import org.financemanager.Exception.NoSuchCategoryException;
-import org.financemanager.Exception.NoSuchTransactionExeption;
-import org.financemanager.entity.Category;
+import org.financemanager.exception.NoSuchTransactionExeption;
 import org.financemanager.entity.Transaction;
 import org.financemanager.repository.TransactionRepo;
 import org.financemanager.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
-    @Autowired
     private TransactionRepo transactionRepo;
+
+    @Autowired
+    public TransactionServiceImpl(TransactionRepo transactionRepo) {
+        this.transactionRepo = transactionRepo;
+    }
 
     @Override
     public List<Transaction> findAll() {
@@ -26,8 +29,11 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Optional<Transaction> findById(Long id) {
         try {
+            if (transactionRepo.findById(id).isEmpty()) {
+                throw new NoSuchTransactionExeption();
+            }
             return transactionRepo.findById(id);
-        } catch (NoSuchTransactionExeption e) {
+        } catch (EntityExistsException e) {
             throw new NoSuchTransactionExeption();
         }
     }
@@ -45,7 +51,12 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction save(Transaction transaction) {
-        return transactionRepo.save(transaction);
+        try {
+            return transactionRepo.save(transaction);
+        }catch (NoSuchTransactionExeption e){
+            throw new NoSuchTransactionExeption();
+        }
+
     }
 
     @Override
@@ -67,6 +78,10 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void delete(Long id) {
-        transactionRepo.deleteById(id);
+        try {
+            transactionRepo.deleteById(id);
+        } catch (NoSuchTransactionExeption e) {
+            throw new NoSuchTransactionExeption();
+        }
     }
 }
