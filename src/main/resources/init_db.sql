@@ -1,7 +1,7 @@
 create table if not exists categories(
     id bigserial NOT NULL,
-    name text,
-    description text
+    name text UNIQUE NOT NULL,
+    description text,
     PRIMARY KEY (id)
 );
     select setval('categories_id_seq', (select max(id) from public.categories));
@@ -31,26 +31,6 @@ create table if not exists categories(
 (
     'categoryName5',
     'Description5'
-),
-(
-    'categoryName6',
-    'Description6'
-),
-(
-    'categoryName7',
-    'Description7'
-),
-(
-    'categoryName8',
-    'Description8'
-),
-(
-    'categoryName9',
-    'Description9'
-),
-(
-    'categoryName10',
-    'Description10'
 );
 
 create table if not exists public.transactions
