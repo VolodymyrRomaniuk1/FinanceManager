@@ -9,17 +9,20 @@ import java.util.Objects;
 @Table(name = "transactions")
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @NotBlank
     private Category category;
     @Column(name = "operation_type")
     @Pattern(regexp = "Spending|Gain")
+    @NotBlank
     private String operationType;      // allowed: "Spending" OR "Gain"
     @Positive(message = "Sum must be positive")
+    @NotBlank
     private double sum;
-    @NotEmpty(message = "Date must not be empty")
+    @NotBlank(message = "Date must not be empty")
     private Date date;
     private String description;
 
