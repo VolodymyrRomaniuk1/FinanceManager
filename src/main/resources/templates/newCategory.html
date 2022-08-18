@@ -11,7 +11,7 @@
 <div class="wrapper">
     <div class="content">
         <nav th:replace="/fragments/navbar :: navbar"></nav>
-        <form th:method="POST" th:action="@{/categories}" th:object="${category}">
+        <form th:method="POST" th:action="@{/categories}" th:object="${category}" class="creation-form">
             <label for="name">Name</label>
             <br>
             <input type="text" th:field="*{name}" id="name">
