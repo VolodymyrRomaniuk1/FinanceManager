@@ -1,16 +1,34 @@
 package org.financemanager.entity;
 
+import lombok.Builder;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Objects;
+import org.hibernate.annotations.Parameter;
+
+@Builder
 
 @Entity
 @Table(name = "categories")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "categories_generator")
+    @GenericGenerator(
+            name = "categories_generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @Parameter(name = "categories_generator", value = "categories_id_seq"),
+                    @Parameter(name = "initial_value", value = "1"),
+                    @Parameter(name = "increment_size", value = "1")
+            }
+    )
     private Long id;
     @NotBlank(message = "Name must not be empty")
+    @Size(min = 2, max = 150, message = "Name length must be 2 to 150 symbols")
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
     private String description;
 
