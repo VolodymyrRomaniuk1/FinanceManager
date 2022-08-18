@@ -2,14 +2,13 @@ package org.financemanager.service.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.financemanager.exception.NoSuchTransactionExeption;
+import org.financemanager.exception.NoSuchTransactionException;
 import org.financemanager.entity.Transaction;
 import org.financemanager.repository.TransactionRepo;
 import org.financemanager.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityExistsException;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +27,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<Transaction> findAll() {
         logger.info("Executing transaction findAll");
-        return transactionRepo.findAll();
+        return transactionRepo.findAll(); //Sort.by(Sort.Direction.ASC, "id")
     }
 
     @Override
@@ -36,8 +35,8 @@ public class TransactionServiceImpl implements TransactionService {
         logger.info("Executing transaction id " + id +" findById");
         Optional<Transaction> t = transactionRepo.findById(id);
             if (t.isEmpty()) {
-                logger.info("Transaction id " + id + " not found");
-                throw new NoSuchTransactionExeption();
+                logger.error("Transaction id " + id + " not found");
+                throw new NoSuchTransactionException("No such transaction");
             }
             logger.info("Transaction id " + id + " found");
             return t;
@@ -59,9 +58,9 @@ public class TransactionServiceImpl implements TransactionService {
         logger.info("Executing transaction save");
         try {
             return transactionRepo.save(transaction);
-        }catch (NoSuchTransactionExeption e){
-            logger.info("Transaction save failed");
-            throw new NoSuchTransactionExeption();
+        }catch (NoSuchTransactionException e){
+            logger.error("Transaction save failed");
+            throw new NoSuchTransactionException("No such transaction");
         }
 
     }
@@ -70,19 +69,19 @@ public class TransactionServiceImpl implements TransactionService {
     public Transaction update(Long id, Transaction transaction) {
         logger.info("Executing transaction id " + id + " update");
         try {
-            Optional<Transaction> t = findById(id);
-            if (t.isPresent()) {
+            Optional<Transaction> newTransaction = findById(id);
+            if (newTransaction.isPresent()) {
                 logger.info("Transaction id " + id + " exists");
-                t.get().setCategory(transaction.getCategory());
-                t.get().setOperationType(transaction.getOperationType());
-                t.get().setSum(transaction.getSum());
-                t.get().setDate(transaction.getDate());
-                t.get().setDescription(transaction.getDescription());
+                newTransaction.get().setCategory(transaction.getCategory());
+                newTransaction.get().setOperationType(transaction.getOperationType());
+                newTransaction.get().setSum(transaction.getSum());
+                newTransaction.get().setDate(transaction.getDate());
+                newTransaction.get().setDescription(transaction.getDescription());
             }
-            return save(t.get());
-        } catch (NoSuchTransactionExeption e) {
-            logger.info("Transaction id " + id + " update failed");
-            throw new NoSuchTransactionExeption();
+            return save(newTransaction.get());
+        } catch (NoSuchTransactionException e) {
+            logger.error("Transaction id " + id + " update failed");
+            throw new NoSuchTransactionException("No such transaction");
         }
     }
 
@@ -91,9 +90,9 @@ public class TransactionServiceImpl implements TransactionService {
         logger.info("Executing transaction id " + id + " delete");
         try {
             transactionRepo.deleteById(id);
-        } catch (NoSuchTransactionExeption e) {
-            logger.info("Transaction id " + id + " deletion failed");
-            throw new NoSuchTransactionExeption();
+        } catch (NoSuchTransactionException e) {
+            logger.error("Transaction id " + id + " deletion failed");
+            throw new NoSuchTransactionException("No such transaction");
         }
     }
 }
