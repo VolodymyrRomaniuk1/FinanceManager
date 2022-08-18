@@ -7,4 +7,7 @@ import java.util.NoSuchElementException;
 
 @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "No such category")
 public class NoSuchCategoryException extends NoSuchElementException {
+    public NoSuchCategoryException(String description){
+        super(description);
+    }
 }
