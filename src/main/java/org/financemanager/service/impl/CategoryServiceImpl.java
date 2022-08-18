@@ -2,14 +2,13 @@ package org.financemanager.service.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.financemanager.entity.Transaction;
 import org.financemanager.exception.CategoryAlreadyExistsException;
 import org.financemanager.exception.NoSuchCategoryException;
 import org.financemanager.entity.Category;
-import org.financemanager.exception.handler.GlobalExceptionHandler;
 import org.financemanager.repository.CategoryRepo;
 import org.financemanager.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> findAll() {
         logger.info("Executing category findAll");
-        return categoryRepo.findAll();
+        return categoryRepo.findAll(); //Sort.by(Sort.Direction.ASC, "id")
     }
 
     @Override
@@ -38,8 +37,8 @@ public class CategoryServiceImpl implements CategoryService {
         logger.info("Executing category id " + id +" findById");
         Optional<Category> c = categoryRepo.findById(id);
         if (c.isEmpty()) {
-            logger.info("Category id " + id + " not found");
-            throw new NoSuchCategoryException();
+            logger.error("Category id " + id + " not found");
+            throw new NoSuchCategoryException("No such category");
         }
         logger.info("Category id " + id + " found");
         return c;
@@ -49,10 +48,10 @@ public class CategoryServiceImpl implements CategoryService {
     public Category save(Category category) {
         logger.info("Executing category save");
         try {
-            return categoryRepo.saveAndFlush(category);
+            return categoryRepo.save(category);
         } catch (CategoryAlreadyExistsException e) {
-            logger.info("Category save failed");
-            throw new CategoryAlreadyExistsException();
+            logger.error("Category save failed");
+            throw new CategoryAlreadyExistsException("Category already exists");
         }
     }
 
@@ -60,16 +59,16 @@ public class CategoryServiceImpl implements CategoryService {
     public Category update(Long id, Category category) {
         logger.info("Executing category id " + id + " update");
         try {
-            Optional<Category> c = findById(id);
-            if (c.isPresent()) {
+            Optional<Category> newCategory = findById(id);
+            if (newCategory.isPresent()) {
                 logger.info("Category id " + id + " exists");
-                c.get().setName(category.getName());
-                c.get().setDescription(category.getDescription());
+                newCategory.get().setName(category.getName());
+                newCategory.get().setDescription(category.getDescription());
             }
-            return save(c.get());
+            return save(newCategory.get());
         } catch (NoSuchCategoryException e) {
-            logger.info("Category id " + id + " update failed");
-            throw new NoSuchCategoryException();
+            logger.error("Category id " + id + " update failed");
+            throw new NoSuchCategoryException("No such category");
         }
     }
 
@@ -79,8 +78,8 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             categoryRepo.deleteById(id);
         } catch (NoSuchCategoryException e) {
-            logger.info("Category id " + id + " deletion failed");
-            throw new NoSuchCategoryException();
+            logger.error("Category id " + id + " deletion failed");
+            throw new NoSuchCategoryException("No such category");
         }
     }
 }
