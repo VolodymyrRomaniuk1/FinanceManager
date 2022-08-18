@@ -14,10 +14,15 @@ import java.util.List;
 @Controller
 public class IndexController {
 
-    @Autowired
     CategoryRepo categoryRepo;
+
     @Autowired
     TransactionRepo transactionRepo;
+
+    @Autowired
+    public IndexController(CategoryRepo categoryRepo) {
+        this.categoryRepo = categoryRepo;
+    }
 
     @GetMapping("/")
     public String index (@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model){
@@ -28,8 +33,8 @@ public class IndexController {
     @GetMapping("/categoriesList")
     public String getCategories(Model model){
         List<Category> categories = categoryRepo.findAll();
-        model.addAttribute("listCategories", categories);
-        return "categories";
+        model.addAttribute("categoriesList", categories);
+        return "categoriesList";
     }
 
     @GetMapping("categories/{id}/edit")
@@ -39,19 +44,19 @@ public class IndexController {
     }
 
     @GetMapping("categories/new")
-    public String newCategory(@ModelAttribute("category") Category category, Model model){
+    public String newCategory(@ModelAttribute("category") Category category){
         return "newCategory";
     }
 
     @GetMapping("transactions/new")
-    public String newCategory(@ModelAttribute("transaction") Transaction transaction, Model model){
+    public String newCategory(@ModelAttribute("transaction") Transaction transaction){
         return "newTransaction";
     }
 
     @GetMapping("/transactionsList")
     public String getTransactions(Model model){
         List<Transaction> transactions = transactionRepo.findAll();
-        model.addAttribute("listTransactions", transactions);
-        return "transactions";
+        model.addAttribute("transactionsList", transactions);
+        return "transactionsList";
     }
 }
