@@ -1,15 +1,29 @@
 package org.financemanager.entity;
 
+import lombok.Builder;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Date;
 import java.util.Objects;
 
+@Builder
+
 @Entity
 @Table(name = "transactions")
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "transactions_generator")
+    @GenericGenerator(
+            name = "transactions_generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(name = "transactions_generator", value = "transactions_id_seq"),
+                    @org.hibernate.annotations.Parameter(name = "initial_value", value = "1"),
+                    @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
+            }
+    )
     private Long id;
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -23,6 +37,7 @@ public class Transaction {
     @NotBlank
     private double sum;
     @NotBlank(message = "Date must not be empty")
+    @NotNull
     private Date date;
     private String description;
 
