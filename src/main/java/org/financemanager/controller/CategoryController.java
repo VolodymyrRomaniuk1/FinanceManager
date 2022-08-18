@@ -1,5 +1,7 @@
 package org.financemanager.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.financemanager.entity.Category;
 import org.financemanager.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import java.util.Optional;
 @RequestMapping("/categories")
 public class CategoryController {
 
+    public static final Logger logger = LogManager.getLogger(CategoryController.class);
+
     private CategoryService categoryService;
 
     @Autowired
@@ -25,37 +29,49 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Category>> getCategoriesList(Model model){
+    public ResponseEntity<List<Category>> findAll(Model model){
+        logger.info("Getting categories list");
         List<Category> categories = categoryService.findAll();
-        model.addAttribute("listCategories", categories);
+        model.addAttribute("categoriesList", categories);
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @GetMapping("{id:[\\d]+}")
     public ResponseEntity<Optional<Category>> getById(@PathVariable("id") Long id){
+        logger.info("Getting category by id " + id);
         return new ResponseEntity<>(categoryService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@ModelAttribute("category") @Valid Category category, BindingResult bindingResult) {
+    public ResponseEntity<Category> saveCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult) {
+        logger.info("Creating new category");
         if(bindingResult.hasErrors()){
+            logger.error("Provided category has errors");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(categoryService.save(category), HttpStatus.CREATED);
     }
 
     @PutMapping("{id:[\\d]+}")
-    public ResponseEntity<String> updateCategory(@PathVariable Long id, @RequestBody @Valid Category category, BindingResult bindingResult){
+    public ResponseEntity<String> updateCategory(@PathVariable Long id, @Valid @RequestBody  Category category, BindingResult bindingResult){
+        logger.info("Updating category id " + id);
         if(bindingResult.hasErrors()){
+            logger.error("Provided category has errors");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        System.out.println(bindingResult.hasErrors());
+        System.out.println(bindingResult);
+        System.out.println(category);
         categoryService.update(id, category);
+        logger.info("Category id " + id + " successfully updated");
         return new ResponseEntity<>("Category successfully updated.", HttpStatus.OK);
     }
 
     @DeleteMapping("{id:[\\d]+}")
     public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id){
+        logger.info("Deleting category id " + id);
         categoryService.delete(id);
+        logger.info("Category id " + id + " deleted");
         return new ResponseEntity<>("Category deleted.", HttpStatus.OK);
     }
 }
