@@ -35,13 +35,13 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Optional<Category> findById(Long id) {
         logger.info("Executing category id " + id +" findById");
-        Optional<Category> c = categoryRepo.findById(id);
-        if (c.isEmpty()) {
+        Optional<Category> category = categoryRepo.findById(id);
+        if (category.isEmpty()) {
             logger.error("Category id " + id + " not found");
             throw new NoSuchCategoryException("No such category");
         }
         logger.info("Category id " + id + " found");
-        return c;
+        return category;
     }
 
     @Override
