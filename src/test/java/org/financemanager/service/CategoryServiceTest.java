@@ -1,6 +1,8 @@
 package org.financemanager.service;
 
 import org.financemanager.entity.Category;
+import org.financemanager.exception.CategoryAlreadyExistsException;
+import org.financemanager.exception.NoSuchCategoryException;
 import org.financemanager.repository.CategoryRepo;
 import org.financemanager.service.impl.CategoryServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,9 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class CategoryServiceTest {
@@ -52,6 +53,18 @@ public class CategoryServiceTest {
         // then - verify the output
         System.out.println(savedCategory);
         assertThat(savedCategory).isNotNull();
+    }
+
+    @DisplayName("JUnit test for save method (negative scenario)")
+    @Test
+    void givenCategoryObject_whenSave_thenCategoryAlreadyExistsExceptionThrown() {
+        // given - precondition or setup
+        given(categoryRepo.save(category)).willThrow(CategoryAlreadyExistsException.class);
+
+        // when -  action or the behaviour that we are going test
+        assertThrows(CategoryAlreadyExistsException.class, () -> {
+            categoryService.save(category);
+        });
     }
 
     @DisplayName("JUnit test for findAll method")
@@ -110,9 +123,21 @@ public class CategoryServiceTest {
         assertThat(savedCategory).isNotNull();
     }
 
+    @DisplayName("JUnit test for findById method (negative scenario)")
+    @Test
+    public void givenCategoryId_whenFindById_thenThrowNoSuchCategoryException(){
+        // given - precondition or setup
+        given(categoryRepo.findById(category.getId())).willReturn(Optional.empty());
+
+        // when -  action or the behaviour that we are going test
+        assertThrows(NoSuchCategoryException.class, () -> {
+            categoryService.findById(category.getId());
+        });
+    }
+
     @DisplayName("JUnit test for update method")
     @Test
-    public void givenCategoryObject_whenUpdate_thenReturnUpdatedCategory(){
+    public void givenCategoryIdAndCategoryObject_whenUpdate_thenReturnUpdatedCategory(){
         // given - precondition or setup
         given(categoryRepo.save(category)).willReturn(category);
         given(categoryRepo.findById(category.getId())).willReturn(Optional.of(category));
@@ -128,6 +153,18 @@ public class CategoryServiceTest {
         assertThat(updatedCategory.getDescription()).isEqualTo("Updated Description");
     }
 
+    @DisplayName("JUnit test for update method (negative scenario)")
+    @Test
+    public void givenCategoryId_whenUpdate_thenThrowNoSuchCategoryException(){
+        // given - precondition or setup
+        given(categoryRepo.findById(category.getId())).willReturn(Optional.empty());
+
+        // when -  action or the behaviour that we are going test
+        assertThrows(NoSuchCategoryException.class, () -> {
+            categoryService.update(category.getId(), category);
+        });
+    }
+
     @DisplayName("JUnit test for delete method")
     @Test
     public void givenCategoryId_whenDelete_thenNothing(){
@@ -141,5 +178,17 @@ public class CategoryServiceTest {
 
         // then - verify the output
         verify(categoryRepo, times(1)).deleteById(categoryId);
+    }
+
+    @DisplayName("JUnit test for delete method (negative scenario)")
+    @Test
+    public void givenCategoryId_whenDelete_thenThrowNoSuchCategoryException(){
+        // given - precondition or setup
+        willThrow(NoSuchCategoryException.class).given(categoryRepo).deleteById(category.getId());
+
+        // when -  action or the behaviour that we are going test
+        assertThrows(NoSuchCategoryException.class, () -> {
+            categoryService.delete(category.getId());
+        });
     }
 }
