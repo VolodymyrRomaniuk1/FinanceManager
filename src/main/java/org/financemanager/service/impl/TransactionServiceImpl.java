@@ -33,13 +33,13 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Optional<Transaction> findById(Long id) {
         logger.info("Executing transaction id " + id +" findById");
-        Optional<Transaction> t = transactionRepo.findById(id);
-            if (t.isEmpty()) {
+        Optional<Transaction> transaction = transactionRepo.findById(id);
+            if (transaction.isEmpty()) {
                 logger.error("Transaction id " + id + " not found");
                 throw new NoSuchTransactionException("No such transaction");
             }
             logger.info("Transaction id " + id + " found");
-            return t;
+            return transaction;
     }
 
 //    @Override
