@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -43,7 +44,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Category> saveCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult) {
+    public ResponseEntity<Category> saveCategory(@Valid @ModelAttribute Category category, BindingResult bindingResult) {
         logger.info("Creating new category");
         if(bindingResult.hasErrors()){
             logger.error("Provided category has errors");
@@ -59,9 +60,7 @@ public class CategoryController {
             logger.error("Provided category has errors");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println(bindingResult.hasErrors());
-        System.out.println(bindingResult);
-        System.out.println(category);
+
         categoryService.update(id, category);
         logger.info("Category id " + id + " successfully updated");
         return new ResponseEntity<>("Category successfully updated.", HttpStatus.OK);
