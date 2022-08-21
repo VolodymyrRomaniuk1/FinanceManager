@@ -2,6 +2,9 @@ package org.financemanager.service;
 
 import org.financemanager.entity.Category;
 import org.financemanager.entity.Transaction;
+import org.financemanager.exception.CategoryAlreadyExistsException;
+import org.financemanager.exception.NoSuchCategoryException;
+import org.financemanager.exception.NoSuchTransactionException;
 import org.financemanager.repository.TransactionRepo;
 import org.financemanager.service.impl.TransactionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,8 +21,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willDoNothing;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -130,6 +133,18 @@ public class TransactionServiceTest {
         assertThat(savedTransaction).isNotNull();
     }
 
+    @DisplayName("JUnit test for findById method (negative scenario)")
+    @Test
+    public void givenTransactionId_whenFindById_thenThrowNoSuchTransactionException(){
+        // given - precondition or setup
+        given(transactionRepo.findById(transaction.getId())).willReturn(Optional.empty());
+
+        // when -  action or the behaviour that we are going test
+        assertThrows(NoSuchTransactionException.class, () -> {
+            transactionService.findById(transaction.getId());
+        });
+    }
+
     @DisplayName("JUnit test for update method")
     @Test
     public void givenTransactionObject_whenUpdate_thenReturnUpdatedTransaction(){
@@ -160,6 +175,18 @@ public class TransactionServiceTest {
         assertThat(updatedTransaction.getDescription()).isEqualTo("Updated Transaction Description");
     }
 
+    @DisplayName("JUnit test for update method (negative scenario)")
+    @Test
+    public void givenTransactionId_whenUpdate_thenThrowNoSuchTransactionException(){
+        // given - precondition or setup
+        given(transactionRepo.findById(transaction.getId())).willReturn(Optional.empty());
+
+        // when -  action or the behaviour that we are going test
+        assertThrows(NoSuchTransactionException.class, () -> {
+            transactionService.update(transaction.getId(), transaction);
+        });
+    }
+
     @DisplayName("JUnit test for delete method")
     @Test
     public void givenTransactionId_whenDelete_thenNothing(){
@@ -173,5 +200,17 @@ public class TransactionServiceTest {
 
         // then - verify the output
         verify(transactionRepo, times(1)).deleteById(transactionId);
+    }
+
+    @DisplayName("JUnit test for delete method (negative scenario)")
+    @Test
+    public void givenTransactionId_whenDelete_thenThrowNoSuchTransactionException(){
+        // given - precondition or setup
+        willThrow(NoSuchTransactionException.class).given(transactionRepo).deleteById(transaction.getId());
+
+        // when -  action or the behaviour that we are going test
+        assertThrows(NoSuchTransactionException.class, () -> {
+            transactionService.delete(transaction.getId());
+        });
     }
 }
