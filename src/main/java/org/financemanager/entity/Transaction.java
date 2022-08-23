@@ -27,17 +27,16 @@ public class Transaction {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @NotBlank
+    @NotNull
     private Category category;
     @Column(name = "operation_type")
     @Pattern(regexp = "Spending|Gain")
     @NotBlank
     private String operationType;      // allowed: "Spending" OR "Gain"
     @Positive(message = "Sum must be positive")
-    @NotBlank
     private double sum;
-    @NotBlank(message = "Date must not be empty")
-    @NotNull
+
+    @NotNull(message = "Date must not be empty")
     private Date date;
     private String description;
 
