@@ -48,6 +48,7 @@ public class CategoryController {
         logger.info("Creating new category");
         if(bindingResult.hasErrors()){
             logger.error("Provided category has errors");
+            logger.info(bindingResult.getAllErrors());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(categoryService.save(category), HttpStatus.CREATED);
@@ -58,6 +59,7 @@ public class CategoryController {
         logger.info("Updating category id " + id);
         if(bindingResult.hasErrors()){
             logger.error("Provided category has errors");
+            logger.info(bindingResult.getAllErrors());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 

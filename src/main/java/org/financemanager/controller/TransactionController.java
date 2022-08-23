@@ -47,6 +47,7 @@ public class TransactionController {
         logger.info("Creating new transaction");
         if(bindingResult.hasErrors()){
             logger.error("Provided transaction has errors");
+            logger.info(bindingResult.getAllErrors());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(transactionService.save(transaction), HttpStatus.CREATED);
@@ -57,10 +58,9 @@ public class TransactionController {
         logger.info("Updating transaction id " + id);
         if(bindingResult.hasErrors()){
             logger.error("Provided transaction has errors");
+            logger.info(bindingResult.getAllErrors());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println(bindingResult.hasErrors());
-        System.out.println(transaction);
         transactionService.update(id, transaction);
         logger.info("Transaction id " + id + " successfully updated");
         return new ResponseEntity<>("Transaction successfully updated.", HttpStatus.OK);
