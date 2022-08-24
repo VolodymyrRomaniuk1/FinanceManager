@@ -101,7 +101,8 @@ public class TransactionControllerTest {
         MockHttpServletResponse response = mvc.perform(
                         post("/transactions").contentType(MediaType.APPLICATION_JSON)
                                 //.content()
-                                .param("category", category.toString()) //TODO make category pass as param
+                                .param("category", category.toString()) // TODO make category pass as param
+                                //.param("category", String.valueOf(new JSONObject(ow.writeValueAsString(category))))
                                 .param("operationType", "Spending")
                                 .param("sum", "422.1")
                                 .param("date", "2022-08-14")
