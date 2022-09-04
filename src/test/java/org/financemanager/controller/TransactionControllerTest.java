@@ -7,7 +7,6 @@ import org.financemanager.entity.Transaction;
 import org.financemanager.exception.NoSuchTransactionException;
 import org.financemanager.exception.handler.GlobalExceptionHandler;
 import org.financemanager.service.impl.TransactionServiceImpl;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
