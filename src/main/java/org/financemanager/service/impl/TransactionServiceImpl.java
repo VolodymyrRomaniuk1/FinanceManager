@@ -2,6 +2,7 @@ package org.financemanager.service.impl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.financemanager.entity.Category;
 import org.financemanager.exception.NoSuchTransactionException;
 import org.financemanager.entity.Transaction;
 import org.financemanager.repository.TransactionRepo;
@@ -9,6 +10,7 @@ import org.financemanager.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +29,19 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<Transaction> findAll() {
         logger.info("Executing transaction findAll");
-        return transactionRepo.findAll(); //Sort.by(Sort.Direction.ASC, "id")
+        return transactionRepo.findAll();
+    }
+
+    @Override
+    public List<Transaction> findAllByDateBetween(Date dateStart, Date dateEnd){
+        logger.info("Executing transaction findAllByDateBetween '" + dateStart + "' and '" + dateEnd + "'");
+        return transactionRepo.findAllByDateBetween(dateStart, dateEnd);
+    }
+
+    @Override
+    public List<Transaction> findAllByDateBetweenAndOperationType(Date dateStart, Date dateEnd, String operationType){
+        logger.info("Executing transaction findAllByDateBetween '" + dateStart + "' and '" + dateEnd + "' with operation type '" + operationType + "'");
+        return transactionRepo.findAllByDateBetweenAndOperationType(dateStart, dateEnd, operationType);
     }
 
     @Override
