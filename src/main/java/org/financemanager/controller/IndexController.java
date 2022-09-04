@@ -1,5 +1,6 @@
 package org.financemanager.controller;
 
+import org.financemanager.dto.ReportReqDto;
 import org.financemanager.entity.Category;
 import org.financemanager.entity.Transaction;
 import org.financemanager.repository.TransactionRepo;
@@ -15,13 +16,12 @@ import java.util.List;
 public class IndexController {
 
     CategoryRepo categoryRepo;
-
-    @Autowired
     TransactionRepo transactionRepo;
 
     @Autowired
-    public IndexController(CategoryRepo categoryRepo) {
+    public IndexController(CategoryRepo categoryRepo, TransactionRepo transactionRepo) {
         this.categoryRepo = categoryRepo;
+        this.transactionRepo = transactionRepo;
     }
 
     @GetMapping("/")
@@ -58,5 +58,10 @@ public class IndexController {
         List<Transaction> transactions = transactionRepo.findAll();
         model.addAttribute("transactionsList", transactions);
         return "transactionsList";
+    }
+
+    @GetMapping("/reports")
+    public String reports(@ModelAttribute("reportReqDto") ReportReqDto reportReqDto){
+        return "reports";
     }
 }
