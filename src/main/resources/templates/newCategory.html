@@ -12,15 +12,16 @@
     <div class="content">
         <nav th:replace="/fragments/navbar :: navbar"></nav>
         <form th:method="POST" th:action="@{/categories}" th:object="${category}" class="creation-form">
-            <label for="name">Name</label>
+            <label th:for="name">Name</label>
             <br>
-            <input type="text" th:field="*{name}" id="name">
+            <input type="text" th:field="*{name}">
             <br>
-            <label for="description">Description</label>
+            <label th:for="description">Description</label>
             <br>
-            <textarea type="text" th:field="*{description}" id="description"></textarea>
+            <textarea type="text" th:field="*{description}"></textarea>
             <br>
-            <input type="submit" value="Create new category">
+            <input type="submit" class="btn btn-success" value="Create new category">
+            <button type="reset" class="btn btn-secondary">Clear</button>
         </form>
         <footer th:replace="/fragments/footer :: footer"></footer>
     </div>
