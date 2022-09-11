@@ -12,35 +12,38 @@
     <div class="content">
         <nav th:replace="/fragments/navbar :: navbar"></nav>
         <form th:method="POST" th:action="@{/transactions}" th:object="${transaction}" class="creation-form">
-            <label for="category">Category</label>
+            <label th:for="category">Category</label>
             <br>
-            <select id="category" th:field="*{category}"></select>
+            <select th:field="*{category}">
+                <option th:each="category : ${categoriesList}" th:value="${category.getId()}" th:text="${category.getName()}"></option>
+            </select>
             <br>
-            <label for="operationType">Operation Type</label>
+            <label th:for="operationType">Operation Type</label>
             <br>
-            <select id="operationType" th:field="*{operationType}">
+            <select th:field="*{operationType}">
                 <option value="Spending">Spending</option>
                 <option value="Gain">Gain</option>
             </select>
             <br>
-            <label for="sum">Sum</label>
+            <label th:for="sum">Sum</label>
             <br>
-            <input type="number" th:field="*{sum}" id="sum">
+            <input type="number" th:field="*{sum}">
             <br>
-            <label for="date">Date</label>
+            <label th:for="date">Date</label>
             <br>
-            <input type="date" th:field="*{date}" id="date">
+            <input type="date" th:field="*{date}">
             <br>
-            <label for="description">Description</label>
+            <label th:for="description">Description</label>
             <br>
-            <textarea type="text" th:field="*{description}" id="description"></textarea>
+            <textarea type="text" th:field="*{description}"></textarea>
             <br>
-            <input type="submit" value="Create new transaction">
+            <input type="submit" class="btn btn-success" value="Create new transaction">
+            <button type="reset" class="btn btn-secondary">Clear</button>
 
         </form>
         <footer th:replace="/fragments/footer :: footer"></footer>
     </div>
 </div>
 </body>
-<script th:src="@{../js/newTransaction.js}"></script>
+<!--<script th:src="@{../js/newTransaction.js}"></script>-->
 </html>
