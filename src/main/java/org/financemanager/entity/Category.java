@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Objects;
 import org.hibernate.annotations.Parameter;
 
@@ -13,7 +14,7 @@ import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "categories")
-public class Category {
+public class Category implements Serializable {
     @Id
     @GeneratedValue(generator = "categories_generator")
     @GenericGenerator(
