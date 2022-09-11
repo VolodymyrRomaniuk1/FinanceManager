@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "transactions")
-public class Transaction {
+public class Transaction implements Serializable {
     @Id
     @GeneratedValue(generator = "transactions_generator")
     @GenericGenerator(
