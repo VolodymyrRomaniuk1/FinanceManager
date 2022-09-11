@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.financemanager.dto.ReportDto;
 import org.financemanager.dto.ReportReqDto;
+import org.financemanager.entity.Category;
+import org.financemanager.entity.Transaction;
 import org.financemanager.service.CategoryService;
 import org.financemanager.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
 
 @RequestMapping("/reports")
 @Controller
@@ -29,14 +34,31 @@ public class ReportController {
         this.transactionService = transactionService;
     }
 
-    @PostMapping
+    @RequestMapping(method = RequestMethod.POST, params = "reportType!=dayByDayReportSpecificCategory")
     public ResponseEntity<ReportDto> findAllByDateBetweenAndOperationType(Model model, @ModelAttribute("reportReqDto") ReportReqDto reportReqDto){
-        logger.info("Getting transactions list between dates and operation type");
+        logger.info("Executing findAllByDateBetweenAndOperationType");
+        List<Transaction> transactionList = transactionService.findAllByDateBetweenAndOperationType(reportReqDto.getDateStart(), reportReqDto.getDateEnd(), reportReqDto.getOperationType());
+        transactionList.sort(((o1, o2) -> (int) (o1.getCategory().getId() - o2.getCategory().getId())));
         ReportDto reportDto = new ReportDto(
-                transactionService.findAllByDateBetweenAndOperationType(reportReqDto.getDateStart(), reportReqDto.getDateEnd(), reportReqDto.getOperationType()),
+                transactionList,
                 reportReqDto.getDateStart(),
                 reportReqDto.getDateEnd(),
-                reportReqDto.getOperationType()
+                reportReqDto.getOperationType(),
+                null
+        );
+        model.addAttribute("reportDto", reportDto);
+        return new ResponseEntity<>(reportDto, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "reportType=dayByDayReportSpecificCategory")
+    public ResponseEntity<ReportDto> findAllByDateBetweenAndOperationTypeAndCategory(Model model, @ModelAttribute("reportReqDto") ReportReqDto reportReqDto){
+        logger.info("Executing findAllByDateBetweenAndOperationTypeAndCategory");
+        ReportDto reportDto = new ReportDto(
+                transactionService.findAllByDateBetweenAndOperationTypeAndCategory(reportReqDto.getDateStart(), reportReqDto.getDateEnd(), reportReqDto.getOperationType(), reportReqDto.getCategory()),
+                reportReqDto.getDateStart(),
+                reportReqDto.getDateEnd(),
+                reportReqDto.getOperationType(),
+                reportReqDto.getCategory()
         );
         model.addAttribute("reportDto", reportDto);
         return new ResponseEntity<>(reportDto, HttpStatus.OK);
