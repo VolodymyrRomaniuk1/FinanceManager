@@ -1,5 +1,6 @@
 package org.financemanager.dto;
 
+import org.financemanager.entity.Category;
 import org.financemanager.entity.Transaction;
 
 import javax.validation.constraints.Pattern;
@@ -14,13 +15,16 @@ public class ReportDto {
     private Date dateEnd;
     @Pattern(regexp = "Spending|Gain")
     private String operationType;
+
+    private Category category;
     private double totalSum;
 
-    public ReportDto(List<Transaction> transactionList, Date dateStart, Date dateEnd, String operationType) {
+    public ReportDto(List<Transaction> transactionList, Date dateStart, Date dateEnd, String operationType, Category category) {
         this.transactionList = transactionList;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.operationType = operationType;
+        this.category = category;
         this.totalSum = calculateTotalSum();
     }
 
@@ -68,6 +72,14 @@ public class ReportDto {
         this.operationType = operationType;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public double getTotalSum() {
         return totalSum;
     }
@@ -81,12 +93,12 @@ public class ReportDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReportDto reportDto = (ReportDto) o;
-        return Double.compare(reportDto.getTotalSum(), getTotalSum()) == 0 && Objects.equals(getTransactionList(), reportDto.getTransactionList()) && getDateStart().equals(reportDto.getDateStart()) && getDateEnd().equals(reportDto.getDateEnd()) && getOperationType().equals(reportDto.getOperationType());
+        return Double.compare(reportDto.getTotalSum(), getTotalSum()) == 0 && Objects.equals(getTransactionList(), reportDto.getTransactionList()) && Objects.equals(getDateStart(), reportDto.getDateStart()) && Objects.equals(getDateEnd(), reportDto.getDateEnd()) && Objects.equals(getOperationType(), reportDto.getOperationType()) && Objects.equals(getCategory(), reportDto.getCategory());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTransactionList(), getDateStart(), getDateEnd(), getOperationType(), getTotalSum());
+        return Objects.hash(getTransactionList(), getDateStart(), getDateEnd(), getOperationType(), getCategory(), getTotalSum());
     }
 
     @Override
@@ -96,6 +108,7 @@ public class ReportDto {
                 ", dateStart=" + dateStart +
                 ", dateEnd=" + dateEnd +
                 ", operationType='" + operationType + '\'' +
+                ", category=" + category +
                 ", totalSum=" + totalSum +
                 '}';
     }
