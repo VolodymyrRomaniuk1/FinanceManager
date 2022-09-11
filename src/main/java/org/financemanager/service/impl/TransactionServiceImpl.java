@@ -45,6 +45,12 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public List<Transaction> findAllByDateBetweenAndOperationTypeAndCategory(Date dateStart, Date dateEnd, String operationType, Category category){
+        logger.info("Executing transaction findAllByDateBetween '" + dateStart + "' and '" + dateEnd + "' with operation type '" + operationType + "' with category " + category);
+        return transactionRepo.findAllByDateBetweenAndOperationTypeAndCategory(dateStart, dateEnd, operationType, category);
+    }
+
+    @Override
     public Optional<Transaction> findById(Long id) {
         logger.info("Executing transaction id " + id +" findById");
         Optional<Transaction> transaction = transactionRepo.findById(id);
