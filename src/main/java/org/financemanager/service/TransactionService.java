@@ -14,6 +14,8 @@ public interface TransactionService {
 
     List<Transaction> findAllByDateBetweenAndOperationType(Date dateStart, Date dateEnd, String operationType);
 
+    List<Transaction> findAllByDateBetweenAndOperationTypeAndCategory(Date dateStart, Date dateEnd, String operationType, Category category);
+
     Optional<Transaction> findById(Long id);
 
     Transaction save(Transaction transaction);
