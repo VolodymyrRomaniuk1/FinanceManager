@@ -49,7 +49,9 @@ public class IndexController {
     }
 
     @GetMapping("transactions/new")
-    public String newCategory(@ModelAttribute("transaction") Transaction transaction){
+    public String newCategory(Model model, @ModelAttribute("transaction") Transaction transaction){
+        List<Category> categories = categoryRepo.findAll();
+        model.addAttribute("categoriesList", categories);
         return "newTransaction";
     }
 
@@ -61,7 +63,9 @@ public class IndexController {
     }
 
     @GetMapping("/reports")
-    public String reports(@ModelAttribute("reportReqDto") ReportReqDto reportReqDto){
+    public String reports(Model model, @ModelAttribute("reportReqDto") ReportReqDto reportReqDto){
+        List<Category> categories = categoryRepo.findAll();
+        model.addAttribute("categoriesList", categories);
         return "reports";
     }
 }
