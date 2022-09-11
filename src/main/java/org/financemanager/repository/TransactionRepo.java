@@ -15,5 +15,7 @@ public interface TransactionRepo extends JpaRepository<Transaction, Long> {
     List<Transaction> findAllByDateBetween(Date dateStart, Date dateEnd);
 
     List<Transaction> findAllByDateBetweenAndOperationType(Date dateStart, Date dateEnd, String operationType);
+
+    List<Transaction> findAllByDateBetweenAndOperationTypeAndCategory(Date dateStart, Date dateEnd, String operationType, Category category);
     //List<Transaction> findTransactionsByCategory(Category category);
 }
