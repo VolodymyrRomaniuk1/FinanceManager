@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class implements CategoryService interface.
+ * Contains methods for operating with categories
+ * */
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -26,12 +30,18 @@ public class CategoryServiceImpl implements CategoryService {
         this.categoryRepo = categoryRepo;
     }
 
+    /**
+     * Returns a list of all categories in database
+     * */
     @Override
     public List<Category> findAll() {
         logger.info("Executing category findAll");
-        return categoryRepo.findAll(); //Sort.by(Sort.Direction.ASC, "id")
+        return categoryRepo.findAll();
     }
 
+    /**
+     * Finds category in database by id and returns category object if exists, throws NoSuchCategoryException otherwise
+     * */
     @Override
     public Optional<Category> findById(Long id) {
         logger.info("Executing category id " + id +" findById");
@@ -44,6 +54,9 @@ public class CategoryServiceImpl implements CategoryService {
         return category;
     }
 
+    /**
+     * Saves category object to a database. Throws CategoryAlreadyExistsException if there is already such category in database
+     * */
     @Override
     public Category save(Category category) {
         logger.info("Executing category save");
@@ -55,6 +68,9 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
+    /**
+     * Updates existing category object in database. Throws NoSuchCategoryException if no such category found in database
+     * */
     @Override
     public Category update(Long id, Category category) {
         logger.info("Executing category id " + id + " update");
@@ -72,6 +88,9 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
+    /**
+     * Deletes existing category object from database. Throws NoSuchCategoryException if no such category found in database
+     * */
     @Override
     public void delete(Long id) {
         logger.info("Executing category id " + id + " delete");

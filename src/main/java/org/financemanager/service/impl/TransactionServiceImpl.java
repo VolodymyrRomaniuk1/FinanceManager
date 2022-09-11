@@ -14,6 +14,10 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class implements TransactionService interface.
+ * Contains methods for operating with transactions
+ * */
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
@@ -26,30 +30,45 @@ public class TransactionServiceImpl implements TransactionService {
         this.transactionRepo = transactionRepo;
     }
 
+    /**
+     * Returns a list of all transactions in database
+     * */
     @Override
     public List<Transaction> findAll() {
         logger.info("Executing transaction findAll");
         return transactionRepo.findAll();
     }
 
+    /**
+     * Returns a list of all transactions in database with dates in specified range
+     * */
     @Override
     public List<Transaction> findAllByDateBetween(Date dateStart, Date dateEnd){
         logger.info("Executing transaction findAllByDateBetween '" + dateStart + "' and '" + dateEnd + "'");
         return transactionRepo.findAllByDateBetween(dateStart, dateEnd);
     }
 
+    /**
+     * Returns a list of all transactions in database with dates in specified range and with specified operation type
+     * */
     @Override
     public List<Transaction> findAllByDateBetweenAndOperationType(Date dateStart, Date dateEnd, String operationType){
         logger.info("Executing transaction findAllByDateBetween '" + dateStart + "' and '" + dateEnd + "' with operation type '" + operationType + "'");
         return transactionRepo.findAllByDateBetweenAndOperationType(dateStart, dateEnd, operationType);
     }
 
+    /**
+     * Returns a list of all transactions in database with dates in specified range, with specified operation type and with specified category
+     * */
     @Override
     public List<Transaction> findAllByDateBetweenAndOperationTypeAndCategory(Date dateStart, Date dateEnd, String operationType, Category category){
         logger.info("Executing transaction findAllByDateBetween '" + dateStart + "' and '" + dateEnd + "' with operation type '" + operationType + "' with category " + category);
         return transactionRepo.findAllByDateBetweenAndOperationTypeAndCategory(dateStart, dateEnd, operationType, category);
     }
 
+    /**
+     * Finds transaction in database by id and returns transaction object if exists, throws NoSuchTransactionException otherwise
+     * */
     @Override
     public Optional<Transaction> findById(Long id) {
         logger.info("Executing transaction id " + id +" findById");
@@ -62,17 +81,9 @@ public class TransactionServiceImpl implements TransactionService {
             return transaction;
     }
 
-//    @Override
-//    //@Query(value = "select * from transactions where transactions.category_id = ?1", nativeQuery = true)
-//        public List<Transaction> findTransactionsByCategory(Long id){
-//        return transactionRepo.findTransactionsByCategory();
-//    }
-////    public List<Transaction> findTransactionsByCategory(Long id){
-////        List<Transaction> tran = findAll();
-////        tran.removeIf(t -> !Objects.equals(t.getCategory().getId(), id));
-////        return tran;
-////    }
-
+    /**
+     * Saves transaction object to a database. Throws NoSuchTransactionException if there is already such transaction in database
+     * */
     @Override
     public Transaction save(Transaction transaction) {
         logger.info("Executing transaction save");
@@ -85,6 +96,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     }
 
+    /**
+     * Updates existing transaction object in database. Throws NoSuchTransactionException if no such transaction found in database
+     * */
     @Override
     public Transaction update(Long id, Transaction transaction) {
         logger.info("Executing transaction id " + id + " update");
@@ -105,6 +119,9 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
+    /**
+     * Deletes existing transaction object from database. Throws NoSuchTransactionException if no such transaction found in database
+     * */
     @Override
     public void delete(Long id) {
         logger.info("Executing transaction id " + id + " delete");
