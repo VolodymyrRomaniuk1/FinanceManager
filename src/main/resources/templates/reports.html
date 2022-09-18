@@ -39,21 +39,23 @@
             </select>
             <br>
             <br>
-            <button type="button" onclick="sendForm()" class="btn btn-success" name="reportType" value="pieDiagramReport" id="pieDiagramReport">Generate pie diagram</button>
-            <button type="submit" class="btn btn-success" name="reportType" value="dayByDayReport" id="dayByDayReport">Generate day-by-day report</button>
+            <button type="button" onclick="generatePieDiagramReport()" class="btn btn-success" name="reportType" value="pieDiagramReport" id="pieDiagramReport">Generate pie diagram</button>
+            <button type="button" onclick="generateDayByDayReport()" class="btn btn-success" name="reportType" value="dayByDayReport" id="dayByDayReport">Generate day-by-day report</button>
             <br>
-            <button type="submit" class="btn btn-success" name="reportType" value="dayByDayReportSpecificCategory" id="dayByDayReportSpecificCategory">Generate day-by-day report for specific category</button>
+            <button type="button" onclick="generateDayByDayReportSpecific()" class="btn btn-success" name="reportType" value="dayByDayReportSpecificCategory" id="dayByDayReportSpecificCategory">Generate day-by-day report for specific category</button>
             <br>
             <button type="reset" class="btn btn-secondary">Clear</button>
         </form>
 
         <div class="report">
             <table class="table reportTable" id="reportTable"></table>
+            <canvas id="reportCanvas"></canvas>
         </div>
 
         <footer th:replace="/fragments/footer :: footer"></footer>
     </div>
 </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script th:src="@{../js/reports.js}"></script>
 </html>
