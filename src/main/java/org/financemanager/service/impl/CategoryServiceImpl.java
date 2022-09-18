@@ -18,12 +18,12 @@ import java.util.Optional;
  * Class implements CategoryService interface.
  * Contains methods for operating with categories
  * */
-@Service
+@Service("categoryServiceImpl")
 public class CategoryServiceImpl implements CategoryService {
 
     public static final Logger logger = LogManager.getLogger(CategoryServiceImpl.class);
 
-    private CategoryRepo categoryRepo;
+    private final CategoryRepo categoryRepo;
 
     @Autowired
     public CategoryServiceImpl(CategoryRepo categoryRepo) {
