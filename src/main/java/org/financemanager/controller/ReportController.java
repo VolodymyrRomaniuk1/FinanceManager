@@ -11,6 +11,7 @@ import org.financemanager.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,8 +26,8 @@ import java.util.List;
 public class ReportController {
     public static final Logger logger = LogManager.getLogger(ReportController.class);
 
-    private CategoryService categoryService;
-    private TransactionService transactionService;
+    private final CategoryService categoryService;
+    private final TransactionService transactionService;
 
     @Autowired
     public ReportController(CategoryService categoryService, TransactionService transactionService){
@@ -34,7 +35,9 @@ public class ReportController {
         this.transactionService = transactionService;
     }
 
+
     @RequestMapping(method = RequestMethod.POST, params = "reportType!=dayByDayReportSpecificCategory")
+    @PreAuthorize("hasAuthority('permission:read')")
     public ResponseEntity<ReportDto> findAllByDateBetweenAndOperationType(Model model, @ModelAttribute("reportReqDto") ReportReqDto reportReqDto){
         logger.info("Executing findAllByDateBetweenAndOperationType");
         List<Transaction> transactionList = transactionService.findAllByDateBetweenAndOperationType(reportReqDto.getDateStart(), reportReqDto.getDateEnd(), reportReqDto.getOperationType());
@@ -51,6 +54,7 @@ public class ReportController {
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "reportType=dayByDayReportSpecificCategory")
+    @PreAuthorize("hasAuthority('permission:read')")
     public ResponseEntity<ReportDto> findAllByDateBetweenAndOperationTypeAndCategory(Model model, @ModelAttribute("reportReqDto") ReportReqDto reportReqDto){
         logger.info("Executing findAllByDateBetweenAndOperationTypeAndCategory");
         ReportDto reportDto = new ReportDto(

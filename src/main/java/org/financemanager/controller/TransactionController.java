@@ -7,6 +7,7 @@ import org.financemanager.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class TransactionController {
 
     public static final Logger logger = LogManager.getLogger(TransactionController.class);
 
-    private TransactionService transactionService;
+    private final TransactionService transactionService;
 
     @Autowired
     public TransactionController(TransactionService transactionService) {
@@ -29,6 +30,7 @@ public class TransactionController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('permission:read')")
     public ResponseEntity<List<Transaction>> findAll(Model model){
         logger.info("Getting transactions list");
         List<Transaction> transactions = transactionService.findAll();
@@ -37,12 +39,14 @@ public class TransactionController {
     }
 
     @GetMapping("{id:[\\d]+}")
+    @PreAuthorize("hasAuthority('permission:read')")
     public ResponseEntity<Optional<Transaction>> getById(@PathVariable("id") Long id){
         logger.info("Getting transaction by id " + id);
         return new ResponseEntity<>(transactionService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('permission:write')")
     public ResponseEntity<Transaction> saveTransaction(@ModelAttribute("transaction") @Valid Transaction transaction, BindingResult bindingResult) {
         logger.info("Creating new transaction");
         if(bindingResult.hasErrors()){
@@ -54,6 +58,7 @@ public class TransactionController {
     }
 
     @PutMapping("{id:[\\d]+}")
+    @PreAuthorize("hasAuthority('permission:write')")
     public ResponseEntity<String> updateTransaction(@PathVariable Long id, @RequestBody @Valid Transaction transaction, BindingResult bindingResult){
         logger.info("Updating transaction id " + id);
         if(bindingResult.hasErrors()){
@@ -67,6 +72,7 @@ public class TransactionController {
     }
 
     @DeleteMapping("{id:[\\d]+}")
+    @PreAuthorize("hasAuthority('permission:write')")
     public ResponseEntity<String> deleteTransaction(@PathVariable("id") Long id){
         logger.info("Deleting transaction id " + id);
         transactionService.delete(id);

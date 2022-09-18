@@ -7,6 +7,7 @@ import org.financemanager.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -22,7 +23,7 @@ public class CategoryController {
 
     public static final Logger logger = LogManager.getLogger(CategoryController.class);
 
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @Autowired
     public CategoryController(CategoryService categoryService){
@@ -30,6 +31,7 @@ public class CategoryController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('permission:read')")
     public ResponseEntity<List<Category>> findAll(Model model){
         logger.info("Getting categories list");
         List<Category> categories = categoryService.findAll();
@@ -38,12 +40,14 @@ public class CategoryController {
     }
 
     @GetMapping("{id:[\\d]+}")
+    @PreAuthorize("hasAuthority('permission:read')")
     public ResponseEntity<Optional<Category>> getById(@PathVariable("id") Long id){
         logger.info("Getting category by id " + id);
         return new ResponseEntity<>(categoryService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('permission:write')")
     public ResponseEntity<Category> saveCategory(@Valid @ModelAttribute Category category, BindingResult bindingResult) {
         logger.info("Creating new category");
         if(bindingResult.hasErrors()){
@@ -55,6 +59,7 @@ public class CategoryController {
     }
 
     @PutMapping("{id:[\\d]+}")
+    @PreAuthorize("hasAuthority('permission:write')")
     public ResponseEntity<String> updateCategory(@PathVariable Long id, @Valid @RequestBody  Category category, BindingResult bindingResult){
         logger.info("Updating category id " + id);
         if(bindingResult.hasErrors()){
@@ -69,6 +74,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("{id:[\\d]+}")
+    @PreAuthorize("hasAuthority('permission:write')")
     public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id){
         logger.info("Deleting category id " + id);
         categoryService.delete(id);
