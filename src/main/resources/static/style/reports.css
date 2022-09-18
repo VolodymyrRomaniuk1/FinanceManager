@@ -19,7 +19,6 @@ body {
     flex: 1 0 auto;
     margin: 5px;
     background-color: #d9e0f1;
-    height: 86%;
 }
 .creation-form{
     padding: 10px;
@@ -28,7 +27,7 @@ form .btn{
     margin-top:5px;
 }
 .report{
-    width:20%;
+    width:60%;
     margin-left: 3%;
     margin-top: 2%;
 }
