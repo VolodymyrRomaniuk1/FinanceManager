@@ -1,12 +1,11 @@
 package org.financemanager.entity;
 
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 
 @Entity
@@ -15,23 +14,17 @@ import java.util.Collection;
 public class User implements UserDetails{
 
     @Id
-    @GeneratedValue(generator = "users_generator")
-    @GenericGenerator(
-            name = "users_generator",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {
-                    @Parameter(name = "users_generator", value = "users_id_seq"),
-                    @Parameter(name = "initial_value", value = "1"),
-                    @Parameter(name = "increment_size", value = "1")
-            }
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "username")
+    @Column(name = "username", unique = true)
+    @NotEmpty
     private String username;
     @Column(name = "password")
+    @NotEmpty
     private String password;
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role")
+    @NotEmpty
     private Role role;
 
     @Override
