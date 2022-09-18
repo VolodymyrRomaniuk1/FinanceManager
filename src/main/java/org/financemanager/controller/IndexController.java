@@ -3,68 +3,74 @@ package org.financemanager.controller;
 import org.financemanager.dto.ReportReqDto;
 import org.financemanager.entity.Category;
 import org.financemanager.entity.Transaction;
-import org.financemanager.repository.TransactionRepo;
+import org.financemanager.service.impl.CategoryServiceImpl;
+import org.financemanager.service.impl.TransactionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.financemanager.repository.CategoryRepo;
 
 import java.util.List;
 
 @Controller
 public class IndexController {
 
-    CategoryRepo categoryRepo;
-    TransactionRepo transactionRepo;
+    private final CategoryServiceImpl categoryService;
+    private final TransactionServiceImpl transactionService;
 
     @Autowired
-    public IndexController(CategoryRepo categoryRepo, TransactionRepo transactionRepo) {
-        this.categoryRepo = categoryRepo;
-        this.transactionRepo = transactionRepo;
+    public IndexController(CategoryServiceImpl categoryService, TransactionServiceImpl transactionService) {
+        this.categoryService = categoryService;
+        this.transactionService = transactionService;
     }
 
     @GetMapping("/")
-    public String index (@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model){
-        model.addAttribute("name", name);
+    public String index (){
         return "index";
     }
 
     @GetMapping("/categoriesList")
+    @PreAuthorize("hasAuthority('permission:read')")
     public String getCategories(Model model){
-        List<Category> categories = categoryRepo.findAll();
+        List<Category> categories = categoryService.findAll();
         model.addAttribute("categoriesList", categories);
         return "categoriesList";
     }
 
     @GetMapping("categories/{id}/edit")
+    @PreAuthorize("hasAuthority('permission:write')")
     public String editCategory(@PathVariable("id") Long id, Model model){
-        model.addAttribute("category", categoryRepo.getById(id));
+        model.addAttribute("category", categoryService.findById(id));
         return "edit";
     }
 
     @GetMapping("categories/new")
+    @PreAuthorize("hasAuthority('permission:write')")
     public String newCategory(@ModelAttribute("category") Category category){
         return "newCategory";
     }
 
     @GetMapping("transactions/new")
+    @PreAuthorize("hasAuthority('permission:write')")
     public String newCategory(Model model, @ModelAttribute("transaction") Transaction transaction){
-        List<Category> categories = categoryRepo.findAll();
+        List<Category> categories = categoryService.findAll();
         model.addAttribute("categoriesList", categories);
         return "newTransaction";
     }
 
     @GetMapping("/transactionsList")
+    @PreAuthorize("hasAuthority('permission:read')")
     public String getTransactions(Model model){
-        List<Transaction> transactions = transactionRepo.findAll();
+        List<Transaction> transactions = transactionService.findAll();
         model.addAttribute("transactionsList", transactions);
         return "transactionsList";
     }
 
     @GetMapping("/reports")
+    @PreAuthorize("hasAuthority('permission:read')")
     public String reports(Model model, @ModelAttribute("reportReqDto") ReportReqDto reportReqDto){
-        List<Category> categories = categoryRepo.findAll();
+        List<Category> categories = categoryService.findAll();
         model.addAttribute("categoriesList", categories);
         return "reports";
     }
