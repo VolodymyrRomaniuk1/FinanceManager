@@ -18,12 +18,12 @@ import java.util.Optional;
  * Class implements TransactionService interface.
  * Contains methods for operating with transactions
  * */
-@Service
+@Service("transactionServiceImpl")
 public class TransactionServiceImpl implements TransactionService {
 
     public static final Logger logger = LogManager.getLogger(TransactionServiceImpl.class);
 
-    private TransactionRepo transactionRepo;
+    private final TransactionRepo transactionRepo;
 
     @Autowired
     public TransactionServiceImpl(TransactionRepo transactionRepo) {
