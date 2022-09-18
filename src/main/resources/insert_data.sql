@@ -59,3 +59,16 @@ values
         '2022-08-03',
         'Description 3'
     )
+
+insert into users(username, password, role)
+values
+    (
+        'user',
+        'user',
+        'USER'
+    ),
+    (
+        'admin',
+        'admin',
+        'ADMIN'
+    )
