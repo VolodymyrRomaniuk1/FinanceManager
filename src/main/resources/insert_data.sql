@@ -64,11 +64,11 @@ insert into users(username, password, role)
 values
     (
         'user',
-        'user',
+        '$2a$12$BwLMuhfm6tGFK.5DO8e.nuskvUEL7WE86aElJMalwGLt79R0Es4Yu',
         'USER'
     ),
     (
         'admin',
-        'admin',
+        '$2a$12$RCiBOWr8brCM90fsDBAfWeEioJ0R.bQLiSkKKeRRN51X1R.xUUFNi',
         'ADMIN'
     )
