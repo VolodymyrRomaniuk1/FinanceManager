@@ -31,7 +31,7 @@ public class IndexController {
     }
 
     @GetMapping("/categoriesList")
-    @PreAuthorize("hasAuthority('permission:read')")
+    @PreAuthorize("hasAuthority('categories:read')")
     public String getCategories(Model model){
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categoriesList", categories);
@@ -39,20 +39,20 @@ public class IndexController {
     }
 
     @GetMapping("categories/{id}/edit")
-    @PreAuthorize("hasAuthority('permission:write')")
+    @PreAuthorize("hasAuthority('categories:write')")
     public String editCategory(@PathVariable("id") Long id, Model model){
         model.addAttribute("category", categoryService.findById(id));
         return "edit";
     }
 
     @GetMapping("categories/new")
-    @PreAuthorize("hasAuthority('permission:write')")
+    @PreAuthorize("hasAuthority('categories:write')")
     public String newCategory(@ModelAttribute("category") Category category){
         return "newCategory";
     }
 
     @GetMapping("transactions/new")
-    @PreAuthorize("hasAuthority('permission:write')")
+    @PreAuthorize("hasAuthority('categories:write')")
     public String newCategory(Model model, @ModelAttribute("transaction") Transaction transaction){
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categoriesList", categories);
@@ -60,7 +60,7 @@ public class IndexController {
     }
 
     @GetMapping("/transactionsList")
-    @PreAuthorize("hasAuthority('permission:read')")
+    @PreAuthorize("hasAuthority('transactions:read')")
     public String getTransactions(Model model){
         List<Transaction> transactions = transactionService.findAll();
         model.addAttribute("transactionsList", transactions);
@@ -68,7 +68,7 @@ public class IndexController {
     }
 
     @GetMapping("/reports")
-    @PreAuthorize("hasAuthority('permission:read')")
+    @PreAuthorize("hasAuthority('reports:read')")
     public String reports(Model model, @ModelAttribute("reportReqDto") ReportReqDto reportReqDto){
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categoriesList", categories);

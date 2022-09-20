@@ -30,7 +30,7 @@ public class TransactionController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('permission:read')")
+    @PreAuthorize("hasAuthority('transactions:read')")
     public ResponseEntity<List<Transaction>> findAll(Model model){
         logger.info("Getting transactions list");
         List<Transaction> transactions = transactionService.findAll();
@@ -39,14 +39,14 @@ public class TransactionController {
     }
 
     @GetMapping("{id:[\\d]+}")
-    @PreAuthorize("hasAuthority('permission:read')")
+    @PreAuthorize("hasAuthority('transactions:read')")
     public ResponseEntity<Optional<Transaction>> getById(@PathVariable("id") Long id){
         logger.info("Getting transaction by id " + id);
         return new ResponseEntity<>(transactionService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('permission:write')")
+    @PreAuthorize("hasAuthority('transactions:write')")
     public ResponseEntity<Transaction> saveTransaction(@ModelAttribute("transaction") @Valid Transaction transaction, BindingResult bindingResult) {
         logger.info("Creating new transaction");
         if(bindingResult.hasErrors()){
@@ -58,7 +58,7 @@ public class TransactionController {
     }
 
     @PutMapping("{id:[\\d]+}")
-    @PreAuthorize("hasAuthority('permission:write')")
+    @PreAuthorize("hasAuthority('transactions:write')")
     public ResponseEntity<String> updateTransaction(@PathVariable Long id, @RequestBody @Valid Transaction transaction, BindingResult bindingResult){
         logger.info("Updating transaction id " + id);
         if(bindingResult.hasErrors()){
@@ -72,7 +72,7 @@ public class TransactionController {
     }
 
     @DeleteMapping("{id:[\\d]+}")
-    @PreAuthorize("hasAuthority('permission:write')")
+    @PreAuthorize("hasAuthority('transactions:write')")
     public ResponseEntity<String> deleteTransaction(@PathVariable("id") Long id){
         logger.info("Deleting transaction id " + id);
         transactionService.delete(id);

@@ -37,7 +37,7 @@ public class ReportController {
 
 
     @RequestMapping(method = RequestMethod.POST, params = "reportType!=dayByDayReportSpecificCategory")
-    @PreAuthorize("hasAuthority('permission:read')")
+    @PreAuthorize("hasAuthority('reports:read')")
     public ResponseEntity<ReportDto> findAllByDateBetweenAndOperationType(Model model, @ModelAttribute("reportReqDto") ReportReqDto reportReqDto){
         logger.info("Executing findAllByDateBetweenAndOperationType");
         List<Transaction> transactionList = transactionService.findAllByDateBetweenAndOperationType(reportReqDto.getDateStart(), reportReqDto.getDateEnd(), reportReqDto.getOperationType());
@@ -54,7 +54,7 @@ public class ReportController {
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "reportType=dayByDayReportSpecificCategory")
-    @PreAuthorize("hasAuthority('permission:read')")
+    @PreAuthorize("hasAuthority('reports:read')")
     public ResponseEntity<ReportDto> findAllByDateBetweenAndOperationTypeAndCategory(Model model, @ModelAttribute("reportReqDto") ReportReqDto reportReqDto){
         logger.info("Executing findAllByDateBetweenAndOperationTypeAndCategory");
         ReportDto reportDto = new ReportDto(

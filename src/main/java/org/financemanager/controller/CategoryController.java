@@ -31,7 +31,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('permission:read')")
+    @PreAuthorize("hasAuthority('categories:read')")
     public ResponseEntity<List<Category>> findAll(Model model){
         logger.info("Getting categories list");
         List<Category> categories = categoryService.findAll();
@@ -40,14 +40,14 @@ public class CategoryController {
     }
 
     @GetMapping("{id:[\\d]+}")
-    @PreAuthorize("hasAuthority('permission:read')")
+    @PreAuthorize("hasAuthority('categories:read')")
     public ResponseEntity<Optional<Category>> getById(@PathVariable("id") Long id){
         logger.info("Getting category by id " + id);
         return new ResponseEntity<>(categoryService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('permission:write')")
+    @PreAuthorize("hasAuthority('categories:write')")
     public ResponseEntity<Category> saveCategory(@Valid @ModelAttribute Category category, BindingResult bindingResult) {
         logger.info("Creating new category");
         if(bindingResult.hasErrors()){
@@ -59,7 +59,7 @@ public class CategoryController {
     }
 
     @PutMapping("{id:[\\d]+}")
-    @PreAuthorize("hasAuthority('permission:write')")
+    @PreAuthorize("hasAuthority('categories:write')")
     public ResponseEntity<String> updateCategory(@PathVariable Long id, @Valid @RequestBody  Category category, BindingResult bindingResult){
         logger.info("Updating category id " + id);
         if(bindingResult.hasErrors()){
@@ -74,7 +74,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("{id:[\\d]+}")
-    @PreAuthorize("hasAuthority('permission:write')")
+    @PreAuthorize("hasAuthority('categories:write')")
     public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id){
         logger.info("Deleting category id " + id);
         categoryService.delete(id);
