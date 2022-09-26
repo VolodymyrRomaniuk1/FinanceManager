@@ -52,8 +52,8 @@ public class IndexController {
     }
 
     @GetMapping("transactions/new")
-    @PreAuthorize("hasAuthority('categories:write')")
-    public String newCategory(Model model, @ModelAttribute("transaction") Transaction transaction){
+    @PreAuthorize("hasAuthority('transactions:write')")
+    public String newTransaction(Model model, @ModelAttribute("transaction") Transaction transaction){
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categoriesList", categories);
         return "newTransaction";
