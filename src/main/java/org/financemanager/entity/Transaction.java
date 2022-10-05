@@ -15,7 +15,8 @@ import java.util.Objects;
 @Table(name = "transactions")
 public class Transaction implements Serializable {
     @Id
-    @GeneratedValue(generator = "transactions_generator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /*@GeneratedValue(generator = "transactions_generator")
     @GenericGenerator(
             name = "transactions_generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
@@ -24,7 +25,7 @@ public class Transaction implements Serializable {
                     @org.hibernate.annotations.Parameter(name = "initial_value", value = "1"),
                     @org.hibernate.annotations.Parameter(name = "increment_size", value = "1")
             }
-    )
+    )*/
     private Long id;
     @ManyToOne
     @JoinColumn(name = "category_id")

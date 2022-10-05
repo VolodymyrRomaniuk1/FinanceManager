@@ -4,4 +4,4 @@
 3. Manually create a database;
 4. Change url, username and password in application.properties (FinanceManager/src/main/resources/application.properties) to connect to a database;
 5. Run FinanceManagerApplication (FinanceManager/src/main/java/org/financemanager/FinanceManagerApplication.java.
-6. Insert data using insert_data.sql (FinanceManager/src/main/resources/insert_data.sql);
+6. Insert data using data.sql (FinanceManager/src/main/resources/data.sql);
