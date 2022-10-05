@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 
 @Entity
@@ -17,14 +18,15 @@ public class User implements UserDetails{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "username", unique = true)
+    @Size(min = 3, max = 30, message = "Username must be 3 to 30 symbols")
     @NotEmpty
     private String username;
     @Column(name = "password")
+    @Size(min = 4, message = "Password must be at least 4 symbols")
     @NotEmpty
     private String password;
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role")
-    @NotEmpty
     private Role role;
 
     @Override
